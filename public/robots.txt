@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://its-sartaj.github.io/Ai-photo-Lab/sitemap.xml
+Sitemap: https://aiphotolab.publicvm.com/sitemap.xml

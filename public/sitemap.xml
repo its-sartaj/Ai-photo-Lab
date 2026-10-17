@@ -1,73 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://its-sartaj.github.io/Ai-photo-Lab/</loc>
+    <loc>https://aiphotolab.publicvm.com/</loc>
     <lastmod>2026-10-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://its-sartaj.github.io/Ai-photo-Lab/?tool=compress</loc>
+    <loc>https://aiphotolab.publicvm.com/?tool=compress</loc>
     <lastmod>2026-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://its-sartaj.github.io/Ai-photo-Lab/?tool=resize</loc>
+    <loc>https://aiphotolab.publicvm.com/?tool=resize</loc>
     <lastmod>2026-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://its-sartaj.github.io/Ai-photo-Lab/?tool=convert</loc>
+    <loc>https://aiphotolab.publicvm.com/?tool=convert</loc>
     <lastmod>2026-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://its-sartaj.github.io/Ai-photo-Lab/?tool=crop</loc>
+    <loc>https://aiphotolab.publicvm.com/?tool=crop</loc>
     <lastmod>2026-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://its-sartaj.github.io/Ai-photo-Lab/?tool=cutout</loc>
+    <loc>https://aiphotolab.publicvm.com/?tool=cutout</loc>
     <lastmod>2026-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://its-sartaj.github.io/Ai-photo-Lab/?tool=passport</loc>
+    <loc>https://aiphotolab.publicvm.com/?tool=passport</loc>
     <lastmod>2026-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://its-sartaj.github.io/Ai-photo-Lab/?view=tutorials</loc>
+    <loc>https://aiphotolab.publicvm.com/?view=tutorials</loc>
     <lastmod>2026-10-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://its-sartaj.github.io/Ai-photo-Lab/?view=about</loc>
+    <loc>https://aiphotolab.publicvm.com/?view=about</loc>
     <lastmod>2026-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://its-sartaj.github.io/Ai-photo-Lab/?view=contact</loc>
+    <loc>https://aiphotolab.publicvm.com/?view=contact</loc>
     <lastmod>2026-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://its-sartaj.github.io/Ai-photo-Lab/?view=privacy</loc>
+    <loc>https://aiphotolab.publicvm.com/?view=privacy</loc>
     <lastmod>2026-10-16</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://its-sartaj.github.io/Ai-photo-Lab/?view=terms</loc>
+    <loc>https://aiphotolab.publicvm.com/?view=terms</loc>
     <lastmod>2026-10-16</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>

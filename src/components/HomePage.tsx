@@ -140,6 +140,63 @@ export const HomePage: React.FC<HomePageProps> = ({
     },
   ];
 
+  const examSpecs = [
+    {
+      exam: 'SSC (CGL, CHSL, GD, MTS, CPO)',
+      examHi: 'एसएससी (CGL, CHSL, GD, MTS)',
+      photoSize: '20 KB – 50 KB (3.5 × 4.5 cm / 100×120 px)',
+      sigSize: '10 KB – 20 KB (4.0 × 2.0 cm / 140×60 px)',
+      notes: 'White or light background, clear face without spectacles/cap.',
+      notesHi: 'सफेद या हल्का बैकग्राउंड, बिना चश्मे/टोपी के स्पष्ट चेहरा।',
+      tool: 'compress' as ToolId,
+    },
+    {
+      exam: 'UPSC (Civil Services CSE, NDA, CDS)',
+      examHi: 'यूपीएससी (CSE, NDA, CDS)',
+      photoSize: '20 KB – 300 KB (Min 350×350 px, Max 1000×1000 px)',
+      sigSize: '20 KB – 300 KB (Min 350×350 px)',
+      notes: 'Photo taken within 10 days, name of candidate and date printed on photo.',
+      notesHi: '10 दिन के अंदर खींची फोटो, फोटो पर नाम और तारीख आवश्यक।',
+      tool: 'passport' as ToolId,
+    },
+    {
+      exam: 'IBPS / SBI Banking (PO & Clerk)',
+      examHi: 'आईबीपीएस / एसबीआई बैंक (PO, Clerk)',
+      photoSize: '20 KB – 50 KB (200 × 230 pixels, 4.5 × 3.5 cm)',
+      sigSize: '10 KB – 20 KB (140 × 60 pixels)',
+      notes: 'Light colored or white background, black ink pen signature.',
+      notesHi: 'हल्का या सफेद बैकग्राउंड, काली स्याही से हस्ताक्षर।',
+      tool: 'compress' as ToolId,
+    },
+    {
+      exam: 'Railway RRB (NTPC, Group D, ALP)',
+      examHi: 'रेलवे आरआरबी (NTPC, Group D, ALP)',
+      photoSize: '20 KB – 50 KB (35 × 45 mm, Color Photo)',
+      sigSize: '10 KB – 40 KB (White paper with black/blue pen)',
+      notes: 'Plain white background, no selfie, front view looking straight.',
+      notesHi: 'सफेद बैकग्राउंड, सेल्फी मान्य नहीं, सामने सीधी नजर।',
+      tool: 'passport' as ToolId,
+    },
+    {
+      exam: 'State PSCs (UPPSC, BPSC, MPPSC, MPSC)',
+      examHi: 'राज्य लोक सेवा आयोग (UPPSC, BPSC, MPPSC)',
+      photoSize: '20 KB – 50 KB (3.5 × 4.5 cm)',
+      sigSize: '10 KB – 20 KB (3.5 × 1.5 cm)',
+      notes: 'Color photograph with white background, JPEG format only.',
+      notesHi: 'सफेद बैकग्राउंड वाली रंगीन फोटो, केवल JPEG फॉर्मेट।',
+      tool: 'compress' as ToolId,
+    },
+    {
+      exam: 'PAN Card (NSDL / UTIITSL)',
+      examHi: 'पैन कार्ड (NSDL / UTIITSL)',
+      photoSize: 'Under 50 KB (3.5 × 2.5 cm / 200 DPI)',
+      sigSize: 'Under 50 KB (2.0 × 4.5 cm / 200 DPI)',
+      notes: 'Color photograph 200 DPI, Signature in rectangular box.',
+      notesHi: '200 DPI रंगीन फोटो, निर्धारित बॉक्स में हस्ताक्षर।',
+      tool: 'resize' as ToolId,
+    },
+  ];
+
   return (
     <div className="w-full">
       {/* Hero Section */}
@@ -288,6 +345,69 @@ export const HomePage: React.FC<HomePageProps> = ({
               </div>
             );
           })}
+        </div>
+      </section>
+
+      {/* Government Exam & Portal Photo/Signature Resizer Guide */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="bg-gradient-to-br from-purple-900 via-indigo-950 to-slate-950 rounded-3xl p-6 sm:p-10 text-white shadow-xl border border-purple-800/50">
+          <div className="max-w-3xl mb-8">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/20 border border-purple-400/30 text-purple-200 text-xs font-semibold mb-3">
+              <FileCheck className="w-3.5 h-3.5 text-purple-300" />
+              <span>{language === 'hi' ? 'सरकारी भर्ती व परीक्षा विशेष' : 'Sarkari Exam Photo & Signature Guide'}</span>
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+              {language === 'hi'
+                ? 'सरकारी फॉर्म फोटो और सिग्नेचर साइज गाइड (SSC, UPSC, रेलवे, बैंक)'
+                : 'Government Exam Photo & Signature Resizer Specs (SSC, UPSC, Banking, RRB)'}
+            </h2>
+            <p className="mt-2 text-xs sm:text-sm text-purple-200/80 leading-relaxed">
+              {language === 'hi'
+                ? 'सरकारी परीक्षाओं में गलत फोटो या सिग्नेचर साइज के कारण फॉर्म रिजेक्ट होने से बचाएं। नीचे दी गई तालिका से अपनी परीक्षा चुनें और एक क्लिक में सही साइज (20KB - 50KB) बनाएं।'
+                : 'Avoid application rejection due to incorrect photo or signature dimensions. Click any preset to instantly compress and resize for your application.'}
+            </p>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse text-xs sm:text-sm">
+              <thead>
+                <tr className="border-b border-purple-800/80 text-purple-300 font-bold uppercase tracking-wider text-[11px]">
+                  <th className="py-3 px-3">Exam / Portal</th>
+                  <th className="py-3 px-3">Photo Specs (KB & Size)</th>
+                  <th className="py-3 px-3">Signature Specs</th>
+                  <th className="py-3 px-3">Requirements</th>
+                  <th className="py-3 px-3 text-right">Quick Tool</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-purple-800/40">
+                {examSpecs.map((item, idx) => (
+                  <tr key={idx} className="hover:bg-purple-800/20 transition-colors">
+                    <td className="py-3.5 px-3 font-bold text-white whitespace-nowrap">
+                      {language === 'hi' ? item.examHi : item.exam}
+                    </td>
+                    <td className="py-3.5 px-3 text-purple-200 font-semibold">
+                      {item.photoSize}
+                    </td>
+                    <td className="py-3.5 px-3 text-purple-200 font-semibold">
+                      {item.sigSize}
+                    </td>
+                    <td className="py-3.5 px-3 text-purple-300/80 text-xs">
+                      {language === 'hi' ? item.notesHi : item.notes}
+                    </td>
+                    <td className="py-3.5 px-3 text-right whitespace-nowrap">
+                      <button
+                        onClick={() => onSelectTool(item.tool)}
+                        className="px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs transition-colors cursor-pointer shadow-sm inline-flex items-center gap-1"
+                      >
+                        <span>{language === 'hi' ? 'फोटो बनाएं' : 'Resize Now'}</span>
+                        <ArrowRight className="w-3 h-3" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
 

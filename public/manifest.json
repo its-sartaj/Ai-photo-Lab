@@ -1,0 +1,19 @@
+{
+  "name": "AI Photo Lab - Free Photo Compressor, Passport Maker & Resizer",
+  "short_name": "AI Photo Lab",
+  "description": "Free 100% private online photo tools: Compress images to 20KB/50KB, Passport photo maker (3.5x4.5cm), AI background remover & resizer.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#7c3aed",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["utilities", "productivity", "photo"]
+}

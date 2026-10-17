@@ -77,6 +77,112 @@ function MainApp() {
     }
   }, []);
 
+  // Dynamically update document title, description, and canonical link for Google SEO & crawlers
+  useEffect(() => {
+    let pageTitle = 'AI Photo Lab - Free Photo Compressor 20KB 50KB, Passport Photo Maker & BG Remover';
+    let pageDesc = 'Free 100% private online photo tools: Compress images to 20KB, 50KB, 100KB for SSC, UPSC & Govt job forms. Passport size photo maker (3.5x4.5 cm), AI background remover, resizer & format converter.';
+    let pageCanonical = 'https://www.aiphotolab.publicvm.com/';
+
+    if (currentView === 'tool') {
+      const toolMetadata: Record<ToolId, { titleEn: string; titleHi: string; descEn: string; descHi: string }> = {
+        compress: {
+          titleEn: 'Photo Compressor 20KB, 50KB, 100KB Online Free (SSC, UPSC) - AI Photo Lab',
+          titleHi: 'फोटो कंप्रेसर 20KB, 50KB ऑनलाइन मुफ्त (SSC, UPSC फॉर्म) - AI Photo Lab',
+          descEn: 'Compress JPG, PNG & WebP images to exact 20KB, 50KB, or 100KB file size online. 100% private in-browser compression without quality loss for government exam forms.',
+          descHi: 'सरकारी फॉर्म व परीक्षाओं (SSC, UPSC, रेलवे) के लिए फोटो का साइज 20KB, 50KB या 100KB में कम करें। 100% मुफ्त और प्राइवेट।',
+        },
+        passport: {
+          titleEn: 'Passport Size Photo Maker Online Free (3.5 x 4.5 cm, 2x2 inch) - AI Photo Lab',
+          titleHi: 'पासपोर्ट साइज फोटो बनाएं ऑनलाइन फ्री (3.5 x 4.5 cm) - AI Photo Lab',
+          descEn: 'Create official 3.5x4.5 cm passport size photos online for free. Add white/blue studio backgrounds, crop face, and generate 4x6 inch printable sheets.',
+          descHi: 'ऑनलाइन पासपोर्ट साइज फोटो (3.5 × 4.5 सेमी) बनाएं। सफेद/नीला बैकग्राउंड जोड़ें और 4x6 प्रिंटेबल शीट मुफ्त में डाउनलोड करें।',
+        },
+        resize: {
+          titleEn: 'Image Resizer Online - Resize Photo in Pixels, CM, MM & Inches - AI Photo Lab',
+          titleHi: 'इमेज रिसाइजर ऑनलाइन - फोटो का साइज पिक्सल, cm और mm में बदलें - AI Photo Lab',
+          descEn: 'Resize image dimensions online in cm, mm, inches, and px with aspect ratio lock. Perfect for signatures (140x60 px) and online exam portals.',
+          descHi: 'फोटो और सिग्नेचर का साइज पिक्सल (px), सेमी (cm) और मिमी (mm) में बदलें। सरकारी फॉर्म और पोर्टल के लिए सटीक माप।',
+        },
+        convert: {
+          titleEn: 'WebP to JPG, PNG Converter Online Free - AI Photo Lab',
+          titleHi: 'WebP से JPG और PNG कन्वर्टर ऑनलाइन फ्री - AI Photo Lab',
+          descEn: 'Convert WebP to JPG, PNG to JPG, SVG to PNG instantly online. 100% client-side privacy with batch support and zero server uploads.',
+          descHi: 'WebP को JPG या PNG में सेकंडों में बदलें। बिना सर्वर अपलोड 100% सुरक्षित और मुफ्त फॉर्मेट कनवर्टर।',
+        },
+        crop: {
+          titleEn: 'Image Cropper Online Free - Crop Photos to 1:1, 4:5, 16:9 - AI Photo Lab',
+          titleHi: 'इमेज क्रॉपर ऑनलाइन फ्री - फोटो क्रॉप करें - AI Photo Lab',
+          descEn: 'Crop photos online with precise aspect ratios (1:1 Square, 4:5 Portrait, 16:9 Banner) and custom freeform selection in your browser.',
+          descHi: 'अपनी फोटो को मनचाहे आकार (1:1, 4:5, 16:9) में आसानी से क्रॉप करें।',
+        },
+        cutout: {
+          titleEn: 'AI Background Remover Free Online - 100% Private - AI Photo Lab',
+          titleHi: 'फ्री AI बैकग्राउंड रिमूवर ऑनलाइन - AI Photo Lab',
+          descEn: 'Remove background from photos automatically using on-device browser AI. 100% private with zero server uploads, download crisp transparent PNGs.',
+          descHi: 'बिना सर्वर अपलोड के सीधे अपने फोन या कंप्यूटर में फोटो का बैकग्राउंड हटाएं। 100% सुरक्षित और पारदर्शी PNG पाएं।',
+        },
+        'video-compress': {
+          titleEn: 'Video Compressor Online Free - Compress MP4 & WebM in Browser - AI Photo Lab',
+          titleHi: 'वीडियो कंप्रेसर ऑनलाइन फ्री - MP4 साइज कम करें - AI Photo Lab',
+          descEn: 'Compress video files online directly in your browser. Reduce MP4 file size for WhatsApp, Discord, and email without uploading to remote servers.',
+          descHi: 'ब्राउज़र में सीधे MP4 और WebM वीडियो फाइल साइज कम करें। व्हाट्सएप और ईमेल के लिए बिना सर्वर अपलोड कंप्रेस करें।',
+        },
+      };
+
+      const meta = toolMetadata[activeTool];
+      if (meta) {
+        pageTitle = language === 'hi' ? meta.titleHi : meta.titleEn;
+        pageDesc = language === 'hi' ? meta.descHi : meta.descEn;
+        pageCanonical = `https://www.aiphotolab.publicvm.com/?tool=${activeTool}`;
+      }
+    } else if (currentView === 'tutorial-detail' && selectedTutorial) {
+      pageTitle = `${language === 'hi' ? selectedTutorial.titleHi : selectedTutorial.titleEn} - AI Photo Lab`;
+      pageDesc = language === 'hi' ? selectedTutorial.descriptionHi : selectedTutorial.descriptionEn;
+      pageCanonical = `https://www.aiphotolab.publicvm.com/?tut=${selectedTutorial.id}`;
+    } else if (currentView === 'tutorials') {
+      pageTitle = language === 'hi'
+        ? 'फोटो एडिटिंग और कंप्रेशन गाइड्स (Hindi Guides) - AI Photo Lab'
+        : 'Photo Editing & Image Compression Guides - AI Photo Lab';
+      pageDesc = 'Comprehensive step-by-step tutorials on compressing photos to 20KB/50KB, government exam passport specifications, and format optimization.';
+      pageCanonical = 'https://www.aiphotolab.publicvm.com/?view=tutorials';
+    } else if (currentView === 'about') {
+      pageTitle = 'About AI Photo Lab - 100% Client-Side Private Photo Tools';
+      pageCanonical = 'https://www.aiphotolab.publicvm.com/?view=about';
+    } else if (currentView === 'privacy') {
+      pageTitle = 'Privacy Policy - Zero Server Uploads | AI Photo Lab';
+      pageCanonical = 'https://www.aiphotolab.publicvm.com/?view=privacy';
+    } else if (currentView === 'terms') {
+      pageTitle = 'Terms of Service | AI Photo Lab';
+      pageCanonical = 'https://www.aiphotolab.publicvm.com/?view=terms';
+    } else if (currentView === 'contact') {
+      pageTitle = 'Contact Support | AI Photo Lab';
+      pageCanonical = 'https://www.aiphotolab.publicvm.com/?view=contact';
+    }
+
+    // Set Document Title
+    document.title = pageTitle;
+
+    // Update Meta Description
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', pageDesc);
+    }
+
+    // Update Canonical URL
+    let linkCanonical = document.querySelector('link[rel="canonical"]');
+    if (linkCanonical) {
+      linkCanonical.setAttribute('href', pageCanonical);
+    }
+
+    // Update OpenGraph tags
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', pageTitle);
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) ogDesc.setAttribute('content', pageDesc);
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.setAttribute('content', pageCanonical);
+  }, [currentView, activeTool, selectedTutorial, language]);
+
   // Update browser URL query without reload
   const updateUrl = (view: PageView, tool?: ToolId, tutId?: string) => {
     const url = new URL(window.location.href);

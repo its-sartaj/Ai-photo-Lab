@@ -231,6 +231,15 @@ export const Footer: React.FC<FooterProps> = ({
             <span>Fast • Private • Free Forever</span>
             <span>•</span>
             <span>English / हिंदी</span>
+            <span>•</span>
+            <a
+              href="https://dnsexit.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-slate-500 hover:text-slate-400 transition-colors"
+            >
+              Free DNS
+            </a>
           </div>
         </div>
       </div>

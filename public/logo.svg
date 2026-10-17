@@ -1,0 +1,64 @@
+<svg width="280" height="250" viewBox="0 0 280 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cameraGradient" x1="20" y1="50" x2="220" y2="240" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0072ff" />
+      <stop offset="30%" stop-color="#0099ff" />
+      <stop offset="70%" stop-color="#7928ca" />
+      <stop offset="100%" stop-color="#9b2cfa" />
+    </linearGradient>
+    <linearGradient id="lensSkyGrad" x1="75" y1="80" x2="165" y2="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#00b4d8" />
+      <stop offset="50%" stop-color="#0077b6" />
+      <stop offset="100%" stop-color="#6930c3" />
+    </linearGradient>
+    <linearGradient id="mountGrad1" x1="90" y1="140" x2="140" y2="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#90e0ef" />
+      <stop offset="100%" stop-color="#0077b6" />
+    </linearGradient>
+    <linearGradient id="mountGrad2" x1="120" y1="130" x2="175" y2="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="30%" stop-color="#caf0f8" />
+      <stop offset="100%" stop-color="#48cae4" />
+    </linearGradient>
+    <linearGradient id="pixelGrad1" x1="200" y1="20" x2="225" y2="45" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0099ff" />
+      <stop offset="100%" stop-color="#0072ff" />
+    </linearGradient>
+    <linearGradient id="pixelGrad2" x1="225" y1="65" x2="255" y2="95" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#7928ca" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+    <linearGradient id="pixelGrad3" x1="175" y1="52" x2="200" y2="76" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#2563eb" />
+    </linearGradient>
+    <clipPath id="lensClip">
+      <circle cx="120" cy="140" r="54" />
+    </clipPath>
+  </defs>
+
+  <!-- Floating Digital Pixel Blocks -->
+  <rect x="200" y="24" width="22" height="22" rx="5" fill="url(#pixelGrad1)" />
+  <rect x="175" y="52" width="24" height="24" rx="5" fill="url(#pixelGrad3)" />
+  <rect x="228" y="58" width="20" height="20" rx="4" fill="url(#pixelGrad1)" />
+  <rect x="204" y="82" width="24" height="24" rx="5" fill="url(#pixelGrad2)" />
+  <rect x="236" y="94" width="18" height="18" rx="4" fill="url(#pixelGrad2)" />
+
+  <!-- Camera Body -->
+  <path d="M62 48 C62 40, 68 34, 76 34 L114 34 C120 34, 126 40, 130 46 L138 58 L190 58 C206 58, 218 70, 218 86 L218 196 C218 212, 206 224, 190 224 L50 224 C34 224, 22 212, 22 196 L22 86 C22 70, 34 58, 50 58 L54 58 L62 48 Z" fill="url(#cameraGradient)" />
+  
+  <!-- Grip highlight -->
+  <rect x="36" y="70" width="16" height="5" rx="2.5" fill="white" opacity="0.35" />
+
+  <!-- Lens White Ring -->
+  <circle cx="120" cy="140" r="66" fill="white" />
+
+  <!-- Lens Viewport -->
+  <g clip-path="url(#lensClip)">
+    <rect x="60" y="80" width="120" height="120" fill="url(#lensSkyGrad)" />
+    <circle cx="138" cy="116" r="11" fill="white" />
+    <path d="M62 205 L106 142 L146 205 Z" fill="url(#mountGrad1)" />
+    <path d="M102 205 L135 130 L188 205 Z" fill="url(#mountGrad2)" />
+    <path d="M135 130 L148 160 L188 205 L150 205 Z" fill="#1e40af" opacity="0.35" />
+  </g>
+</svg>

@@ -206,14 +206,25 @@ export const VideoCompressorTool: React.FC = () => {
     setVideoMeta(null);
     setOriginalVideoUrl(null);
     setCompressedResult(null);
-    setErrorMsg(null);
     setProgressPercent(0);
   };
 
+  const originalUrlRef = useRef<string | null>(null);
+  const compressedUrlRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    originalUrlRef.current = originalVideoUrl;
+  }, [originalVideoUrl]);
+
+  useEffect(() => {
+    compressedUrlRef.current = compressedResult?.objectUrl || null;
+  }, [compressedResult]);
+
   useEffect(() => {
     return () => {
-      if (originalVideoUrl) URL.revokeObjectURL(originalVideoUrl);
-      if (compressedResult?.objectUrl) URL.revokeObjectURL(compressedResult.objectUrl);
+      if (originalUrlRef.current) URL.revokeObjectURL(originalUrlRef.current);
+      if (compressedUrlRef.current) URL.revokeObjectURL(compressedUrlRef.current);
+      if (abortControllerRef.current) abortControllerRef.current.abort();
     };
   }, []);
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { DropZone } from '../DropZone';
 import {
@@ -20,11 +20,39 @@ export const ResizerTool: React.FC = () => {
 
   const [width, setWidth] = useState<number>(0);
   const [height, setHeight] = useState<number>(0);
+  const [unit, setUnit] = useState<'px' | 'cm' | 'mm' | 'in'>('px');
   const [lockAspect, setLockAspect] = useState<boolean>(true);
   const [format, setFormat] = useState<'image/jpeg' | 'image/png' | 'image/webp'>('image/jpeg');
   const [quality, setQuality] = useState<number>(90);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [result, setResult] = useState<EngineResult | null>(null);
+  const resultUrlRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    resultUrlRef.current = result?.objectUrl || null;
+  }, [result]);
+
+  useEffect(() => {
+    return () => {
+      if (resultUrlRef.current) URL.revokeObjectURL(resultUrlRef.current);
+    };
+  }, []);
+
+  const pxToUnit = (px: number, u: 'px' | 'cm' | 'mm' | 'in'): number => {
+    if (u === 'px') return px;
+    if (u === 'in') return Number((px / 300).toFixed(2));
+    if (u === 'cm') return Number(((px / 300) * 2.54).toFixed(2));
+    if (u === 'mm') return Number(((px / 300) * 25.4).toFixed(1));
+    return px;
+  };
+
+  const unitToPx = (val: number, u: 'px' | 'cm' | 'mm' | 'in'): number => {
+    if (u === 'px') return Math.round(val);
+    if (u === 'in') return Math.round(val * 300);
+    if (u === 'cm') return Math.round((val / 2.54) * 300);
+    if (u === 'mm') return Math.round((val / 25.4) * 300);
+    return Math.round(val);
+  };
 
   const handleImageSelected = async (selectedFile: File) => {
     try {
@@ -57,6 +85,16 @@ export const ResizerTool: React.FC = () => {
       const ratio = originalWidth / originalHeight;
       setWidth(Math.max(1, Math.round(newHeight * ratio)));
     }
+  };
+
+  const handleUnitWidthChange = (val: number) => {
+    const newPx = Math.max(1, unitToPx(val, unit));
+    handleWidthChange(newPx);
+  };
+
+  const handleUnitHeightChange = (val: number) => {
+    const newPx = Math.max(1, unitToPx(val, unit));
+    handleHeightChange(newPx);
   };
 
   const handleScalePreset = (percent: number) => {
@@ -178,36 +216,68 @@ export const ResizerTool: React.FC = () => {
               </div>
             </div>
 
+            {/* Unit Selector */}
+            <div>
+              <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                {language === 'hi' ? 'माप इकाई (Measurement Unit)' : 'Measurement Unit'}
+              </label>
+              <div className="grid grid-cols-4 gap-1.5 p-1 bg-slate-100 rounded-xl">
+                {(['px', 'cm', 'mm', 'in'] as const).map((u) => (
+                  <button
+                    key={u}
+                    type="button"
+                    onClick={() => setUnit(u)}
+                    className={`py-1 text-xs font-bold rounded-lg transition-all ${
+                      unit === u
+                        ? 'bg-white text-purple-700 shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    {u.toUpperCase()}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             {/* Width and Height Controls */}
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-3 items-end">
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1">
-                    {t.toolLabels.width}
+                    {t.toolLabels.width} ({unit})
                   </label>
                   <input
                     type="number"
-                    min="10"
-                    max="10000"
-                    value={width || ''}
-                    onChange={(e) => handleWidthChange(Number(e.target.value))}
+                    step={unit === 'px' ? '1' : '0.01'}
+                    min={unit === 'px' ? '10' : '0.1'}
+                    max={unit === 'px' ? '10000' : '100'}
+                    value={width ? pxToUnit(width, unit) : ''}
+                    onChange={(e) => handleUnitWidthChange(Number(e.target.value))}
                     className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm font-medium focus:outline-none focus:border-purple-600"
                   />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1">
-                    {t.toolLabels.height}
+                    {t.toolLabels.height} ({unit})
                   </label>
                   <input
                     type="number"
-                    min="10"
-                    max="10000"
-                    value={height || ''}
-                    onChange={(e) => handleHeightChange(Number(e.target.value))}
+                    step={unit === 'px' ? '1' : '0.01'}
+                    min={unit === 'px' ? '10' : '0.1'}
+                    max={unit === 'px' ? '10000' : '100'}
+                    value={height ? pxToUnit(height, unit) : ''}
+                    onChange={(e) => handleUnitHeightChange(Number(e.target.value))}
                     className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm font-medium focus:outline-none focus:border-purple-600"
                   />
                 </div>
               </div>
+
+              {unit !== 'px' && (
+                <div className="text-[11px] text-purple-700 font-semibold bg-purple-50 px-3 py-1.5 rounded-lg border border-purple-100 flex items-center justify-between">
+                  <span>{language === 'hi' ? 'समकक्ष पिक्सल (300 DPI):' : 'Equivalent Pixels @ 300 DPI:'}</span>
+                  <span>{width} × {height} px</span>
+                </div>
+              )}
 
               {/* Aspect Ratio Lock Toggle */}
               <button

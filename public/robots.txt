@@ -22,4 +22,3 @@ Allow: /
 
 # Canonical Sitemap URL
 Sitemap: https://aiphotolab.publicvm.com/sitemap.xml
-Sitemap: https://aiphotolab.publicvm.com/sitemap.xml

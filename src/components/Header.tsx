@@ -68,8 +68,17 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex items-center justify-between h-16 md:h-18">
           {/* Brand Logo */}
           <div
+            role="button"
+            tabIndex={0}
             onClick={() => handleViewClick('home')}
-            className="flex items-center gap-2.5 cursor-pointer group select-none"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleViewClick('home');
+              }
+            }}
+            aria-label="AI Photo Lab Home"
+            className="flex items-center gap-2.5 cursor-pointer group select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-xl"
           >
             <Logo variant="icon" size={40} className="transition-transform group-hover:scale-105" />
             <div>

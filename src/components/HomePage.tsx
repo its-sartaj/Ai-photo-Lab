@@ -309,8 +309,17 @@ export const HomePage: React.FC<HomePageProps> = ({
             return (
               <div
                 key={tool.id}
+                role="button"
+                tabIndex={0}
                 onClick={() => onSelectTool(tool.id)}
-                className="group relative bg-white rounded-3xl border border-slate-200/90 hover:border-purple-400 p-6 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between cursor-pointer"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onSelectTool(tool.id);
+                  }
+                }}
+                aria-label={tool.name}
+                className="group relative bg-white rounded-3xl border border-slate-200/90 hover:border-purple-400 p-6 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">

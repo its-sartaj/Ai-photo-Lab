@@ -14,6 +14,11 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguageState] = useState<Language>(() => {
     if (typeof window !== 'undefined') {
+      const urlLang = new URLSearchParams(window.location.search).get('lang');
+      if (urlLang === 'hi' || urlLang === 'en') {
+        localStorage.setItem('ai_photo_lab_lang', urlLang);
+        return urlLang;
+      }
       const saved = localStorage.getItem('ai_photo_lab_lang');
       if (saved === 'en' || saved === 'hi') return saved;
     }
@@ -25,6 +30,15 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     if (typeof window !== 'undefined') {
       localStorage.setItem('ai_photo_lab_lang', lang);
       document.documentElement.lang = lang;
+
+      // Update URL query parameter seamlessly
+      const url = new URL(window.location.href);
+      if (lang === 'hi') {
+        url.searchParams.set('lang', 'hi');
+      } else {
+        url.searchParams.delete('lang');
+      }
+      window.history.replaceState({}, '', url.toString());
     }
   };
 

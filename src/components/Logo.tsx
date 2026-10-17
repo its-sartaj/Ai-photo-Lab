@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useId } from 'react';
 
 interface LogoProps {
   variant?: 'icon' | 'full' | 'hero';
@@ -11,6 +11,9 @@ export const Logo: React.FC<LogoProps> = ({
   className = '',
   size = 40,
 }) => {
+  const rawId = useId();
+  const idPrefix = `logo-${rawId.replace(/:/g, '')}`;
+
   // SVG Icon Component matching user's AI Photo Lab mockup exactly
   const IconSvg = ({ iconSize }: { iconSize: number }) => (
     <svg
@@ -23,7 +26,7 @@ export const Logo: React.FC<LogoProps> = ({
     >
       <defs>
         {/* Main Camera Body Gradient (Blue to Purple) */}
-        <linearGradient id="cameraGradient" x1="20" y1="50" x2="220" y2="240" gradientUnits="userSpaceOnUse">
+        <linearGradient id={`${idPrefix}-cameraGradient`} x1="20" y1="50" x2="220" y2="240" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#0072ff" />
           <stop offset="30%" stopColor="#0099ff" />
           <stop offset="70%" stopColor="#7928ca" />
@@ -31,54 +34,54 @@ export const Logo: React.FC<LogoProps> = ({
         </linearGradient>
 
         {/* Lens Inner Sky Gradient */}
-        <linearGradient id="lensSkyGrad" x1="75" y1="80" x2="165" y2="200" gradientUnits="userSpaceOnUse">
+        <linearGradient id={`${idPrefix}-lensSkyGrad`} x1="75" y1="80" x2="165" y2="200" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#00b4d8" />
           <stop offset="50%" stopColor="#0077b6" />
           <stop offset="100%" stopColor="#6930c3" />
         </linearGradient>
 
         {/* Mountains Gradients */}
-        <linearGradient id="mountGrad1" x1="90" y1="140" x2="140" y2="200" gradientUnits="userSpaceOnUse">
+        <linearGradient id={`${idPrefix}-mountGrad1`} x1="90" y1="140" x2="140" y2="200" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#90e0ef" />
           <stop offset="100%" stopColor="#0077b6" />
         </linearGradient>
-        <linearGradient id="mountGrad2" x1="120" y1="130" x2="175" y2="200" gradientUnits="userSpaceOnUse">
+        <linearGradient id={`${idPrefix}-mountGrad2`} x1="120" y1="130" x2="175" y2="200" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#ffffff" />
           <stop offset="30%" stopColor="#caf0f8" />
           <stop offset="100%" stopColor="#48cae4" />
         </linearGradient>
 
         {/* Floating Digital Pixel Blocks Gradients */}
-        <linearGradient id="pixelGrad1" x1="190" y1="20" x2="220" y2="50" gradientUnits="userSpaceOnUse">
+        <linearGradient id={`${idPrefix}-pixelGrad1`} x1="190" y1="20" x2="220" y2="50" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#0099ff" />
           <stop offset="100%" stopColor="#0072ff" />
         </linearGradient>
-        <linearGradient id="pixelGrad2" x1="225" y1="65" x2="255" y2="95" gradientUnits="userSpaceOnUse">
+        <linearGradient id={`${idPrefix}-pixelGrad2`} x1="225" y1="65" x2="255" y2="95" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#7928ca" />
           <stop offset="100%" stopColor="#a855f7" />
         </linearGradient>
-        <linearGradient id="pixelGrad3" x1="175" y1="80" x2="205" y2="110" gradientUnits="userSpaceOnUse">
+        <linearGradient id={`${idPrefix}-pixelGrad3`} x1="175" y1="80" x2="205" y2="110" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#2563eb" />
           <stop offset="100%" stopColor="#6366f1" />
         </linearGradient>
 
         {/* Clip path for lens circular content */}
-        <clipPath id="lensClip">
+        <clipPath id={`${idPrefix}-lensClip`}>
           <circle cx="120" cy="140" r="54" />
         </clipPath>
       </defs>
 
       {/* Floating Pixel Blocks representing AI & Image Processing */}
-      <rect x="200" y="24" width="22" height="22" rx="5" fill="url(#pixelGrad1)" />
-      <rect x="175" y="52" width="24" height="24" rx="5" fill="url(#pixelGrad3)" />
-      <rect x="228" y="58" width="20" height="20" rx="4" fill="url(#pixelGrad1)" />
-      <rect x="204" y="82" width="24" height="24" rx="5" fill="url(#pixelGrad2)" />
-      <rect x="236" y="94" width="18" height="18" rx="4" fill="url(#pixelGrad2)" />
+      <rect x="200" y="24" width="22" height="22" rx="5" fill={`url(#${idPrefix}-pixelGrad1)`} />
+      <rect x="175" y="52" width="24" height="24" rx="5" fill={`url(#${idPrefix}-pixelGrad3)`} />
+      <rect x="228" y="58" width="20" height="20" rx="4" fill={`url(#${idPrefix}-pixelGrad1)`} />
+      <rect x="204" y="82" width="24" height="24" rx="5" fill={`url(#${idPrefix}-pixelGrad2)`} />
+      <rect x="236" y="94" width="18" height="18" rx="4" fill={`url(#${idPrefix}-pixelGrad2)`} />
 
       {/* Camera Main Body with Top Viewfinder & Flash Bumps */}
       <path
         d="M62 48 C62 40, 68 34, 76 34 L114 34 C120 34, 126 40, 130 46 L138 58 L190 58 C206 58, 218 70, 218 86 L218 196 C218 212, 206 224, 190 224 L50 224 C34 224, 22 212, 22 196 L22 86 C22 70, 34 58, 50 58 L54 58 L62 48 Z"
-        fill="url(#cameraGradient)"
+        fill={`url(#${idPrefix}-cameraGradient)`}
       />
 
       {/* Camera Top Grip Indicator */}
@@ -88,9 +91,9 @@ export const Logo: React.FC<LogoProps> = ({
       <circle cx="120" cy="140" r="66" fill="white" />
 
       {/* Lens Inner Viewport with Mountains and Sun */}
-      <g clipPath="url(#lensClip)">
+      <g clipPath={`url(#${idPrefix}-lensClip)`}>
         {/* Sky Background */}
-        <rect x="60" y="80" width="120" height="120" fill="url(#lensSkyGrad)" />
+        <rect x="60" y="80" width="120" height="120" fill={`url(#${idPrefix}-lensSkyGrad)`} />
 
         {/* Circular Sun */}
         <circle cx="138" cy="116" r="11" fill="white" />
@@ -98,13 +101,13 @@ export const Logo: React.FC<LogoProps> = ({
         {/* Left Mountain */}
         <path
           d="M62 205 L106 142 L146 205 Z"
-          fill="url(#mountGrad1)"
+          fill={`url(#${idPrefix}-mountGrad1)`}
         />
 
         {/* Right / Main Snowy Mountain */}
         <path
           d="M102 205 L135 130 L188 205 Z"
-          fill="url(#mountGrad2)"
+          fill={`url(#${idPrefix}-mountGrad2)`}
         />
 
         {/* Mountain Shadow / Ridge line */}

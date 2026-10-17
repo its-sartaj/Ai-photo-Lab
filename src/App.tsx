@@ -56,25 +56,38 @@ function MainApp() {
   const [selectedTutorial, setSelectedTutorial] = useState<TutorialItem | null>(null);
   const [isAdGuideOpen, setIsAdGuideOpen] = useState(false);
 
-  // Parse initial URL query params (?tool=... or ?view=... or ?tut=...)
+  // Parse URL query params and handle browser back/forward navigation
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const toolParam = params.get('tool') as ToolId | null;
-    const viewParam = params.get('view') as PageView | null;
-    const tutId = params.get('tut');
+    const syncFromUrl = () => {
+      const params = new URLSearchParams(window.location.search);
+      const toolParam = params.get('tool') as ToolId | null;
+      const viewParam = params.get('view') as PageView | null;
+      const tutId = params.get('tut');
 
-    if (toolParam && ['compress', 'resize', 'convert', 'crop', 'passport', 'cutout', 'video-compress'].includes(toolParam)) {
-      setActiveTool(toolParam);
-      setCurrentView('tool');
-    } else if (viewParam) {
-      setCurrentView(viewParam);
-    } else if (tutId) {
-      const match = TUTORIALS_DATA.find((t) => t.id === tutId);
-      if (match) {
-        setSelectedTutorial(match);
-        setCurrentView('tutorial-detail');
+      if (toolParam && ['compress', 'resize', 'convert', 'crop', 'passport', 'cutout', 'video-compress'].includes(toolParam)) {
+        setActiveTool(toolParam);
+        setCurrentView('tool');
+      } else if (tutId) {
+        const match = TUTORIALS_DATA.find((t) => t.id === tutId);
+        if (match) {
+          setSelectedTutorial(match);
+          setCurrentView('tutorial-detail');
+        } else {
+          setCurrentView('tutorials');
+        }
+      } else if (viewParam) {
+        setCurrentView(viewParam);
+      } else {
+        setCurrentView('home');
       }
-    }
+    };
+
+    // Initial sync
+    syncFromUrl();
+
+    // Listen to browser Back/Forward buttons
+    window.addEventListener('popstate', syncFromUrl);
+    return () => window.removeEventListener('popstate', syncFromUrl);
   }, []);
 
   // Dynamically update document title, description, and canonical link for Google SEO & crawlers
@@ -186,7 +199,9 @@ function MainApp() {
   // Update browser URL query without reload
   const updateUrl = (view: PageView, tool?: ToolId, tutId?: string) => {
     const url = new URL(window.location.href);
+    const existingLang = new URLSearchParams(window.location.search).get('lang');
     url.search = '';
+
     if (view === 'tool' && tool) {
       url.searchParams.set('tool', tool);
     } else if (view === 'tutorial-detail' && tutId) {
@@ -194,6 +209,11 @@ function MainApp() {
     } else if (view !== 'home') {
       url.searchParams.set('view', view);
     }
+
+    if (existingLang || language === 'hi') {
+      url.searchParams.set('lang', existingLang || language);
+    }
+
     window.history.pushState({}, '', url.toString());
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };

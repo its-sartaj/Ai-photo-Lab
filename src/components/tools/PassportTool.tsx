@@ -124,6 +124,18 @@ export const PassportTool: React.FC = () => {
     };
   }, [originalImage, selectedPreset, targetKb, bgColor]);
 
+  const resultUrlRef = React.useRef<string | null>(null);
+
+  useEffect(() => {
+    resultUrlRef.current = result?.objectUrl || null;
+  }, [result]);
+
+  useEffect(() => {
+    return () => {
+      if (resultUrlRef.current) URL.revokeObjectURL(resultUrlRef.current);
+    };
+  }, []);
+
   const handleDownload = () => {
     if (!result || !file) return;
     const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || 'passport-photo';
@@ -133,6 +145,74 @@ export const PassportTool: React.FC = () => {
     try {
       confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 } });
     } catch {}
+  };
+
+  const handleDownloadPrintSheet = async () => {
+    if (!result || !file) return;
+
+    // 4x6 inch photo paper at 300 DPI (1800 x 1200 px landscape)
+    const sheetCanvas = document.createElement('canvas');
+    sheetCanvas.width = 1800;
+    sheetCanvas.height = 1200;
+    const ctx = sheetCanvas.getContext('2d');
+    if (!ctx) return;
+
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, 1800, 1200);
+
+    const img = new Image();
+    img.src = result.objectUrl;
+    await new Promise((res) => {
+      img.onload = res;
+    });
+
+    // Determine grid layout based on preset aspect
+    const isSquare = selectedPreset.id === 'us-visa';
+    const cols = isSquare ? 3 : 4;
+    const rows = 2;
+    const count = cols * rows;
+
+    const scaledW = isSquare ? 500 : 380;
+    const scaledH = Math.round((scaledW * selectedPreset.height) / selectedPreset.width);
+
+    const gapX = Math.round((1800 - cols * scaledW) / (cols + 1));
+    const gapY = Math.round((1120 - rows * scaledH) / (rows + 1));
+
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const x = gapX + c * (scaledW + gapX);
+        const y = gapY + r * (scaledH + gapY);
+
+        ctx.drawImage(img, x, y, scaledW, scaledH);
+
+        // Thin cutting guide border
+        ctx.strokeStyle = '#cbd5e1';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x, y, scaledW, scaledH);
+      }
+    }
+
+    // Sheet footer watermark / guide text
+    ctx.fillStyle = '#64748b';
+    ctx.font = '14px sans-serif';
+    ctx.fillText(
+      `AI Photo Lab • 4x6 Inch Printable Sheet (${count} Photos @ 300 DPI) • Cut along borders`,
+      gapX,
+      1165
+    );
+
+    sheetCanvas.toBlob(
+      (blob) => {
+        if (!blob) return;
+        const baseName = file.name.substring(0, file.name.lastIndexOf('.')) || 'passport';
+        triggerDownload(blob, `${baseName}-4x6-print-sheet-${count}photos.jpg`);
+        try {
+          confetti({ particleCount: 60, spread: 70, origin: { y: 0.8 } });
+        } catch {}
+      },
+      'image/jpeg',
+      0.95
+    );
   };
 
   return (
@@ -298,15 +378,29 @@ export const PassportTool: React.FC = () => {
               </div>
             )}
 
-            {/* Download Button */}
-            <button
-              onClick={handleDownload}
-              disabled={!result || isProcessing}
-              className="w-full py-3.5 px-4 bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white font-bold rounded-xl shadow-lg shadow-purple-200 flex items-center justify-center gap-2 transition-all cursor-pointer"
-            >
-              <Download className="w-5 h-5" />
-              <span>{t.actions.download}</span>
-            </button>
+            {/* Download Action Buttons */}
+            <div className="space-y-2 pt-1">
+              <button
+                onClick={handleDownload}
+                disabled={!result || isProcessing}
+                className="w-full py-3.5 px-4 bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white font-bold rounded-xl shadow-lg shadow-purple-200 flex items-center justify-center gap-2 transition-all cursor-pointer"
+              >
+                <Download className="w-5 h-5" />
+                <span>{language === 'hi' ? 'सिंगल फोटो डाउनलोड करें (फॉर्म अपलोड)' : 'Download Single Photo (Exam Upload)'}</span>
+              </button>
+
+              {selectedPreset.id !== 'signature' && (
+                <button
+                  onClick={handleDownloadPrintSheet}
+                  disabled={!result || isProcessing}
+                  className="w-full py-2.5 px-4 bg-purple-50 hover:bg-purple-100/80 border border-purple-200 disabled:opacity-50 text-purple-700 font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer"
+                  title={language === 'hi' ? '4x6 इंच फोटो पेपर पर 8 फोटो की प्रिंटेबल शीट' : '8-photo printable grid sheet on 4x6 inch paper'}
+                >
+                  <Download className="w-4 h-4 text-purple-600" />
+                  <span>{language === 'hi' ? '4×6 प्रिंटेबल शीट डाउनलोड करें (8 फोटो)' : 'Download 4×6 Printable Sheet (8 Photos)'}</span>
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Preview Column */}

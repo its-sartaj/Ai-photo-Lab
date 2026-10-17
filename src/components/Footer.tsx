@@ -32,8 +32,17 @@ export const Footer: React.FC<FooterProps> = ({
           {/* Brand Column */}
           <div className="lg:col-span-2 space-y-4">
             <div
+              role="button"
+              tabIndex={0}
               onClick={() => onNavigateView('home')}
-              className="flex items-center gap-2.5 cursor-pointer group inline-flex"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onNavigateView('home');
+                }
+              }}
+              aria-label="AI Photo Lab Home"
+              className="flex items-center gap-2.5 cursor-pointer group inline-flex focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 rounded-xl"
             >
               <Logo variant="icon" size={38} className="transition-transform group-hover:scale-105" />
               <span className="font-extrabold text-xl text-white tracking-tight group-hover:text-purple-400 transition-colors">

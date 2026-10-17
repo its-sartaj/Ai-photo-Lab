@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>AI Photo Lab - Redirecting...</title>
+    <script>
+      // Single Page Apps for GitHub Pages
+      // Redirects 404 paths to index.html with appropriate query parameters
+      (function() {
+        var path = window.location.pathname;
+        var search = window.location.search;
+        var hash = window.location.hash;
+
+        // Map path segments to query parameters
+        var cleanPath = path.replace(/^\/+|\/+$/g, '');
+        if (cleanPath === 'compress' || cleanPath === 'passport' || cleanPath === 'resize' || 
+            cleanPath === 'convert' || cleanPath === 'crop' || cleanPath === 'cutout' || cleanPath === 'video-compress') {
+          window.location.replace('/?tool=' + cleanPath + (search ? '&' + search.slice(1) : '') + hash);
+        } else if (cleanPath === 'tutorials' || cleanPath === 'about' || cleanPath === 'contact' || cleanPath === 'privacy' || cleanPath === 'terms') {
+          window.location.replace('/?view=' + cleanPath + (search ? '&' + search.slice(1) : '') + hash);
+        } else {
+          // Fallback to home with original path retained
+          window.location.replace('/' + (search || '') + (hash || ''));
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to <a href="/">AI Photo Lab</a>...</p>
+  </body>
+</html>

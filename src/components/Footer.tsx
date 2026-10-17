@@ -238,7 +238,7 @@ export const Footer: React.FC<FooterProps> = ({
               rel="noopener noreferrer"
               className="text-slate-500 hover:text-slate-400 transition-colors"
             >
-              Free DNS
+              Free DNS by DNSExit
             </a>
           </div>
         </div>

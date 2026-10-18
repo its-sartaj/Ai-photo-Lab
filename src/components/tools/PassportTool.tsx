@@ -9,6 +9,7 @@ import {
 } from '../../utils/imageEngine';
 import { Download, RefreshCw, Zap, ShieldCheck, Check, Sliders, AlertCircle } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { PassportSeoContent } from './seo/PassportSeoContent';
 
 interface PresetOption {
   id: string;
@@ -447,6 +448,9 @@ export const PassportTool: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Deep SEO & Educational Guide below tool to avoid thin content */}
+      <PassportSeoContent />
     </div>
   );
 };

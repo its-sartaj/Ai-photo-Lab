@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { Mail, Send, CheckCircle2, MessageSquare, Clock, ShieldCheck } from 'lucide-react';
 
-export const ContactPage: React.FC = () => {
+import { PageView } from '../../types';
+
+interface ContactPageProps {
+  onNavigateView?: (view: PageView) => void;
+}
+
+export const ContactPage: React.FC<ContactPageProps> = ({ onNavigateView }) => {
   const { language } = useLanguage();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -17,6 +23,7 @@ export const ContactPage: React.FC = () => {
   };
 
   const contactEmail = 'apextech.servicess@gmail.com';
+  const supportEmail = 'support@aiphotolab.publicvm.com';
 
   return (
     <div className="w-full max-w-4xl mx-auto px-4 py-10">
@@ -93,6 +100,31 @@ export const ContactPage: React.FC = () => {
                     ? 'आपकी ईमेल आईडी का उपयोग केवल उत्तर देने के लिए किया जाता है, किसी मार्केटिंग के लिए नहीं।'
                     : 'Your email address is kept strictly confidential and never shared.'}
                 </p>
+              </div>
+            </div>
+
+            {/* FAQ Help Desk link */}
+            <div className="pt-3 border-t border-slate-100">
+              <div className="p-3.5 rounded-2xl bg-purple-50/70 border border-purple-100 flex items-start gap-2.5">
+                <MessageSquare className="w-4 h-4 text-purple-600 shrink-0 mt-0.5" />
+                <div className="text-xs">
+                  <span className="font-bold text-slate-800 block">
+                    {language === 'hi' ? 'त्वरित सहायता केंद्र (FAQ Desk)' : 'Quick Help Desk & FAQs'}
+                  </span>
+                  <p className="text-[11px] text-slate-600 mt-0.5 leading-relaxed">
+                    {language === 'hi'
+                      ? 'सरकारी परीक्षा फोटो साइज, सिग्नेचर नियमों और सामान्य प्रश्नों के तुरंत समाधान के लिए हमारे गाइड्स देखें।'
+                      : 'Looking for immediate answers on exam photo criteria, DPI, or video compression?'}
+                  </p>
+                  {onNavigateView && (
+                    <button
+                      onClick={() => onNavigateView('tutorials')}
+                      className="mt-2 text-purple-700 hover:text-purple-800 font-bold text-[11px] underline cursor-pointer"
+                    >
+                      {language === 'hi' ? '→ सामान्य प्रश्न व ट्यूटोरियल देखें' : '→ Browse FAQs & Tutorials'}
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           </div>

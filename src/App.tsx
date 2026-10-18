@@ -34,6 +34,7 @@ const AboutPage = lazy(() => import('./components/pages/AboutPage').then(m => ({
 const ContactPage = lazy(() => import('./components/pages/ContactPage').then(m => ({ default: m.ContactPage })));
 const PrivacyPolicyPage = lazy(() => import('./components/pages/PrivacyPolicyPage').then(m => ({ default: m.PrivacyPolicyPage })));
 const TermsPage = lazy(() => import('./components/pages/TermsPage').then(m => ({ default: m.TermsPage })));
+const DisclaimerPage = lazy(() => import('./components/pages/DisclaimerPage').then(m => ({ default: m.DisclaimerPage })));
 const AdSenseGuideModal = lazy(() => import('./components/pages/AdSenseGuideModal').then(m => ({ default: m.AdSenseGuideModal })));
 
 function ToolLoadingFallback() {
@@ -170,6 +171,12 @@ function MainApp() {
     } else if (currentView === 'contact') {
       pageTitle = 'Contact Support | AI Photo Lab';
       pageCanonical = 'https://aiphotolab.publicvm.com/?view=contact';
+    } else if (currentView === 'disclaimer') {
+      pageTitle = language === 'hi'
+        ? 'अस्वीकरण (Disclaimer) - गैर-सरकारी उपकरण | AI Photo Lab'
+        : 'Disclaimer - Independent Utility Tool | AI Photo Lab';
+      pageDesc = 'AI Photo Lab is an independent browser-based image utility and is not affiliated, associated, or endorsed by any government agency (SSC, UPSC, NTA, IBPS).';
+      pageCanonical = 'https://aiphotolab.publicvm.com/?view=disclaimer';
     }
 
     // Set Document Title
@@ -365,6 +372,12 @@ function MainApp() {
         {currentView === 'terms' && (
           <Suspense fallback={<ToolLoadingFallback />}>
             <TermsPage />
+          </Suspense>
+        )}
+
+        {currentView === 'disclaimer' && (
+          <Suspense fallback={<ToolLoadingFallback />}>
+            <DisclaimerPage />
           </Suspense>
         )}
       </main>

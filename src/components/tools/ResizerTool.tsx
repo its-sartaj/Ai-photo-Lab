@@ -10,6 +10,7 @@ import {
 } from '../../utils/imageEngine';
 import { Download, RefreshCw, Lock, Unlock, Zap, Maximize2, Sliders } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { ResizerSeoContent } from './seo/ResizerSeoContent';
 
 export const ResizerTool: React.FC = () => {
   const { t, language } = useLanguage();
@@ -389,6 +390,9 @@ export const ResizerTool: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Deep SEO & Technical Guide below tool */}
+      <ResizerSeoContent />
     </div>
   );
 };

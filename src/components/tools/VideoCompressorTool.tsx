@@ -27,6 +27,7 @@ import {
   Loader2,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { VideoCompressorSeoContent } from './seo/VideoCompressorSeoContent';
 
 export const VideoCompressorTool: React.FC = () => {
   const { language, t } = useLanguage();
@@ -633,6 +634,9 @@ export const VideoCompressorTool: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Deep SEO & Educational Technical Guide below tool */}
+      <VideoCompressorSeoContent />
     </div>
   );
 };

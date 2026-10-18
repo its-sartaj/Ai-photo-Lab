@@ -209,6 +209,14 @@ export const Footer: React.FC<FooterProps> = ({
                   {t.nav.terms}
                 </button>
               </li>
+              <li>
+                <button
+                  onClick={() => onNavigateView('disclaimer')}
+                  className="hover:text-purple-400 transition-colors cursor-pointer text-left"
+                >
+                  {t.nav.disclaimer}
+                </button>
+              </li>
             </ul>
           </div>
         </div>

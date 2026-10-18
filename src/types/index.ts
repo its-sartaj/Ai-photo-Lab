@@ -17,7 +17,8 @@ export type PageView =
   | 'about'
   | 'contact'
   | 'privacy'
-  | 'terms';
+  | 'terms'
+  | 'disclaimer';
 
 export interface ProcessedImageResult {
   blob: Blob;

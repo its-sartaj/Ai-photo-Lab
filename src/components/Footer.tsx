@@ -216,7 +216,7 @@ export const Footer: React.FC<FooterProps> = ({
         {/* Bottom copyright row */}
         <div className="mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div>
-            © {new Date().getFullYear()} AI Photo Lab. {t.footer.allRights}
+            © AI Photo Lab. {t.footer.allRights}
           </div>
           <div className="flex items-center gap-4 text-[11px]">
             <span>Fast • Private • Free Forever</span>

@@ -15,7 +15,6 @@ import {
   Zap,
   Lock,
   Search,
-  CheckCircle2,
   Clock,
   HelpCircle,
   FileCheck,
@@ -290,17 +289,11 @@ export const HomePage: React.FC<HomePageProps> = ({
 
       {/* Main Tool Cards Grid */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10">
-          <div>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900">
-              {t.tools.title}
-            </h2>
-            <p className="mt-1 text-sm text-slate-600">{t.tools.subtitle}</p>
-          </div>
-          <div className="mt-3 md:mt-0 text-xs text-purple-700 font-semibold flex items-center gap-1">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-            <span>{language === 'hi' ? 'सभी टूल्स 100% क्लाइंट-साइड हैं' : 'All tools run 100% locally'}</span>
-          </div>
+        <div className="mb-10">
+          <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900">
+            {t.tools.title}
+          </h2>
+          <p className="mt-1 text-sm text-slate-600">{t.tools.subtitle}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

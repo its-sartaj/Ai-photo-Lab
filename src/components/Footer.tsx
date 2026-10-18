@@ -2,12 +2,12 @@ import React from 'react';
 import { PageView, ToolId } from '../types';
 import { useLanguage } from '../i18n/LanguageContext';
 import { Logo } from './Logo';
-import { Camera, ShieldCheck, Mail, Heart, ExternalLink, HelpCircle } from 'lucide-react';
+import { Camera, ShieldCheck, Mail, Heart, ExternalLink } from 'lucide-react';
 
 interface FooterProps {
   onNavigateView: (view: PageView) => void;
   onSelectTool: (toolId: ToolId) => void;
-  onOpenAdGuide: () => void;
+  onOpenAdGuide?: () => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
@@ -166,15 +166,6 @@ export const Footer: React.FC<FooterProps> = ({
                   className="hover:text-purple-400 transition-colors cursor-pointer text-left"
                 >
                   {language === 'hi' ? 'प्रिंटिंग DPI गाइड' : 'DPI & Print Resolution'}
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={onOpenAdGuide}
-                  className="text-purple-300 hover:text-white inline-flex items-center gap-1 font-semibold transition-colors cursor-pointer"
-                >
-                  <HelpCircle className="w-3 h-3" />
-                  <span>{language === 'hi' ? 'वेबमास्टर व AdSense गाइड' : 'Publisher Setup Guide'}</span>
                 </button>
               </li>
             </ul>

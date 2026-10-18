@@ -8,7 +8,6 @@ import {
   Globe,
   Menu,
   X,
-  HelpCircle,
   Sliders,
   Maximize2,
   RefreshCw,
@@ -26,7 +25,7 @@ interface HeaderProps {
   activeTool: ToolId;
   onNavigateView: (view: PageView) => void;
   onSelectTool: (toolId: ToolId) => void;
-  onOpenAdGuide: () => void;
+  onOpenAdGuide?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -197,16 +196,6 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Right Action Buttons */}
           <div className="hidden sm:flex items-center gap-2.5">
-            {/* Guide Button */}
-            <button
-              onClick={onOpenAdGuide}
-              className="px-3 py-1.5 rounded-xl border border-purple-200 hover:border-purple-300 hover:bg-purple-50/60 text-purple-700 text-xs font-semibold inline-flex items-center gap-1.5 transition-colors cursor-pointer"
-              title={language === 'hi' ? 'AdSense और सर्च कंसोल सेटअप गाइड' : 'AdSense & Search Console Setup'}
-            >
-              <HelpCircle className="w-3.5 h-3.5" />
-              <span>{language === 'hi' ? 'AdSense गाइड' : 'AdSense Guide'}</span>
-            </button>
-
             {/* Language Switcher */}
             <div className="inline-flex rounded-xl bg-slate-100 p-0.5 border border-slate-200">
               <button
@@ -312,19 +301,6 @@ export const Header: React.FC<HeaderProps> = ({
                 </button>
               ))}
             </div>
-          </div>
-
-          <div className="pt-2">
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenAdGuide();
-              }}
-              className="w-full py-2.5 px-3 rounded-xl bg-purple-50 border border-purple-200 text-purple-700 text-xs font-bold flex items-center justify-center gap-1.5"
-            >
-              <HelpCircle className="w-4 h-4" />
-              <span>{language === 'hi' ? 'AdSense और पब्लिश गाइड देखें' : 'View AdSense & Publisher Guide'}</span>
-            </button>
           </div>
         </div>
       )}

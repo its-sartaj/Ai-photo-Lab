@@ -1,6 +1,5 @@
 import React from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
-import { HelpCircle } from 'lucide-react';
 
 interface AdSenseBannerProps {
   slotType?: 'leaderboard' | 'rectangle' | 'in-content';
@@ -11,7 +10,6 @@ interface AdSenseBannerProps {
 export const AdSenseBanner: React.FC<AdSenseBannerProps> = ({
   slotType = 'leaderboard',
   className = '',
-  onOpenAdGuide,
 }) => {
   const { language } = useLanguage();
 
@@ -24,15 +22,6 @@ export const AdSenseBanner: React.FC<AdSenseBannerProps> = ({
         <span>
           {language === 'hi' ? 'विज्ञापन स्थान (ADVERTISEMENT)' : 'SPONSORED / ADVERTISEMENT'}
         </span>
-        <button
-          onClick={onOpenAdGuide}
-          type="button"
-          className="inline-flex items-center gap-1 text-[11px] text-purple-600 hover:text-purple-700 transition-colors"
-          title={language === 'hi' ? 'AdSense सेटअप गाइड देखें' : 'View AdSense Setup Guide'}
-        >
-          <HelpCircle className="w-3.5 h-3.5" />
-          <span>{language === 'hi' ? 'AdSense सेटअप' : 'AdSense Guide'}</span>
-        </button>
       </div>
 
       <div

@@ -27,7 +27,7 @@ interface HomePageProps {
   onSelectTool: (toolId: ToolId) => void;
   onSelectTutorial: (tutorial: TutorialItem) => void;
   onNavigateView: (view: PageView) => void;
-  onOpenAdGuide: () => void;
+  onOpenAdGuide?: () => void;
 }
 
 export const HomePage: React.FC<HomePageProps> = ({

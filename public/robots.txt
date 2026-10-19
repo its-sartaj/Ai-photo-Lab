@@ -21,4 +21,4 @@ User-agent: YandexBot
 Allow: /
 
 # Canonical Sitemap URL
-Sitemap: https://aiphotolab.publicvm.com/sitemap.xml
+Sitemap: https://www.aiphotolab.publicvm.com/sitemap.xml

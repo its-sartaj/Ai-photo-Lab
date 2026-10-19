@@ -10,6 +10,7 @@ import {
 } from '../../utils/imageEngine';
 import { Download, RefreshCw, Zap, Sliders, CheckCircle2, ArrowRight, Eye } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { CompressorSeoContent } from './seo/CompressorSeoContent';
 
 export const CompressorTool: React.FC = () => {
   const { t, language } = useLanguage();
@@ -327,6 +328,9 @@ export const CompressorTool: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Deep SEO Guide & Sarkari Exam Specifications below tool */}
+      <CompressorSeoContent />
     </div>
   );
 };

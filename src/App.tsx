@@ -95,7 +95,7 @@ function MainApp() {
   useEffect(() => {
     let pageTitle = 'AI Photo Lab - Free Photo Compressor 20KB 50KB, Passport Photo Maker & BG Remover';
     let pageDesc = 'Free 100% private online photo tools: Compress images to 20KB, 50KB, 100KB for SSC, UPSC & Govt job forms. Passport size photo maker (3.5x4.5 cm), AI background remover, resizer & format converter.';
-    let pageCanonical = 'https://aiphotolab.publicvm.com/';
+    let pageCanonical = 'https://www.aiphotolab.publicvm.com/';
 
     if (currentView === 'tool') {
       const toolMetadata: Record<ToolId, { titleEn: string; titleHi: string; descEn: string; descHi: string }> = {
@@ -147,36 +147,36 @@ function MainApp() {
       if (meta) {
         pageTitle = language === 'hi' ? meta.titleHi : meta.titleEn;
         pageDesc = language === 'hi' ? meta.descHi : meta.descEn;
-        pageCanonical = `https://aiphotolab.publicvm.com/?tool=${activeTool}`;
+        pageCanonical = `https://www.aiphotolab.publicvm.com/?tool=${activeTool}`;
       }
     } else if (currentView === 'tutorial-detail' && selectedTutorial) {
       pageTitle = `${language === 'hi' ? selectedTutorial.titleHi : selectedTutorial.titleEn} - AI Photo Lab`;
       pageDesc = language === 'hi' ? selectedTutorial.descriptionHi : selectedTutorial.descriptionEn;
-      pageCanonical = `https://aiphotolab.publicvm.com/?tut=${selectedTutorial.id}`;
+      pageCanonical = `https://www.aiphotolab.publicvm.com/?tut=${selectedTutorial.id}`;
     } else if (currentView === 'tutorials') {
       pageTitle = language === 'hi'
         ? 'फोटो एडिटिंग और कंप्रेशन गाइड्स (Hindi Guides) - AI Photo Lab'
         : 'Photo Editing & Image Compression Guides - AI Photo Lab';
       pageDesc = 'Comprehensive step-by-step tutorials on compressing photos to 20KB/50KB, government exam passport specifications, and format optimization.';
-      pageCanonical = 'https://aiphotolab.publicvm.com/?view=tutorials';
+      pageCanonical = 'https://www.aiphotolab.publicvm.com/?view=tutorials';
     } else if (currentView === 'about') {
       pageTitle = 'About AI Photo Lab - 100% Client-Side Private Photo Tools';
-      pageCanonical = 'https://aiphotolab.publicvm.com/?view=about';
+      pageCanonical = 'https://www.aiphotolab.publicvm.com/?view=about';
     } else if (currentView === 'privacy') {
       pageTitle = 'Privacy Policy - Zero Server Uploads | AI Photo Lab';
-      pageCanonical = 'https://aiphotolab.publicvm.com/?view=privacy';
+      pageCanonical = 'https://www.aiphotolab.publicvm.com/?view=privacy';
     } else if (currentView === 'terms') {
       pageTitle = 'Terms of Service | AI Photo Lab';
-      pageCanonical = 'https://aiphotolab.publicvm.com/?view=terms';
+      pageCanonical = 'https://www.aiphotolab.publicvm.com/?view=terms';
     } else if (currentView === 'contact') {
       pageTitle = 'Contact Support | AI Photo Lab';
-      pageCanonical = 'https://aiphotolab.publicvm.com/?view=contact';
+      pageCanonical = 'https://www.aiphotolab.publicvm.com/?view=contact';
     } else if (currentView === 'disclaimer') {
       pageTitle = language === 'hi'
         ? 'अस्वीकरण (Disclaimer) - गैर-सरकारी उपकरण | AI Photo Lab'
         : 'Disclaimer - Independent Utility Tool | AI Photo Lab';
       pageDesc = 'AI Photo Lab is an independent browser-based image utility and is not affiliated, associated, or endorsed by any government agency (SSC, UPSC, NTA, IBPS).';
-      pageCanonical = 'https://aiphotolab.publicvm.com/?view=disclaimer';
+      pageCanonical = 'https://www.aiphotolab.publicvm.com/?view=disclaimer';
     }
 
     // Set Document Title
@@ -359,7 +359,7 @@ function MainApp() {
 
         {currentView === 'contact' && (
           <Suspense fallback={<ToolLoadingFallback />}>
-            <ContactPage />
+            <ContactPage onNavigateView={handleNavigateView} />
           </Suspense>
         )}
 

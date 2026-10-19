@@ -3,156 +3,161 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <!-- Homepage -->
   <url>
-    <loc>https://aiphotolab.publicvm.com/</loc>
-    <lastmod>2026-10-17</lastmod>
+    <loc>https://www.aiphotolab.publicvm.com/</loc>
+    <lastmod>2026-10-19</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://aiphotolab.publicvm.com/" />
-    <xhtml:link rel="alternate" hreflang="hi" href="https://aiphotolab.publicvm.com/?lang=hi" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://aiphotolab.publicvm.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.aiphotolab.publicvm.com/" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://www.aiphotolab.publicvm.com/?lang=hi" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.aiphotolab.publicvm.com/" />
   </url>
 
   <!-- Core Tools -->
   <url>
-    <loc>https://aiphotolab.publicvm.com/?tool=compress</loc>
-    <lastmod>2026-10-17</lastmod>
+    <loc>https://www.aiphotolab.publicvm.com/?tool=compress</loc>
+    <lastmod>2026-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://aiphotolab.publicvm.com/?tool=compress" />
-    <xhtml:link rel="alternate" hreflang="hi" href="https://aiphotolab.publicvm.com/?tool=compress&amp;lang=hi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.aiphotolab.publicvm.com/?tool=compress" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://www.aiphotolab.publicvm.com/?tool=compress&amp;lang=hi" />
   </url>
   <url>
-    <loc>https://aiphotolab.publicvm.com/?tool=passport</loc>
-    <lastmod>2026-10-17</lastmod>
+    <loc>https://www.aiphotolab.publicvm.com/?tool=passport</loc>
+    <lastmod>2026-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://aiphotolab.publicvm.com/?tool=passport" />
-    <xhtml:link rel="alternate" hreflang="hi" href="https://aiphotolab.publicvm.com/?tool=passport&amp;lang=hi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.aiphotolab.publicvm.com/?tool=passport" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://www.aiphotolab.publicvm.com/?tool=passport&amp;lang=hi" />
   </url>
   <url>
-    <loc>https://aiphotolab.publicvm.com/?tool=resize</loc>
-    <lastmod>2026-10-17</lastmod>
+    <loc>https://www.aiphotolab.publicvm.com/?tool=resize</loc>
+    <lastmod>2026-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://aiphotolab.publicvm.com/?tool=resize" />
-    <xhtml:link rel="alternate" hreflang="hi" href="https://aiphotolab.publicvm.com/?tool=resize&amp;lang=hi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.aiphotolab.publicvm.com/?tool=resize" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://www.aiphotolab.publicvm.com/?tool=resize&amp;lang=hi" />
   </url>
   <url>
-    <loc>https://aiphotolab.publicvm.com/?tool=convert</loc>
-    <lastmod>2026-10-17</lastmod>
+    <loc>https://www.aiphotolab.publicvm.com/?tool=convert</loc>
+    <lastmod>2026-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://aiphotolab.publicvm.com/?tool=convert" />
-    <xhtml:link rel="alternate" hreflang="hi" href="https://aiphotolab.publicvm.com/?tool=convert&amp;lang=hi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.aiphotolab.publicvm.com/?tool=convert" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://www.aiphotolab.publicvm.com/?tool=convert&amp;lang=hi" />
   </url>
   <url>
-    <loc>https://aiphotolab.publicvm.com/?tool=cutout</loc>
-    <lastmod>2026-10-17</lastmod>
+    <loc>https://www.aiphotolab.publicvm.com/?tool=cutout</loc>
+    <lastmod>2026-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://aiphotolab.publicvm.com/?tool=cutout" />
-    <xhtml:link rel="alternate" hreflang="hi" href="https://aiphotolab.publicvm.com/?tool=cutout&amp;lang=hi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.aiphotolab.publicvm.com/?tool=cutout" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://www.aiphotolab.publicvm.com/?tool=cutout&amp;lang=hi" />
   </url>
   <url>
-    <loc>https://aiphotolab.publicvm.com/?tool=crop</loc>
-    <lastmod>2026-10-17</lastmod>
+    <loc>https://www.aiphotolab.publicvm.com/?tool=crop</loc>
+    <lastmod>2026-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://aiphotolab.publicvm.com/?tool=crop" />
-    <xhtml:link rel="alternate" hreflang="hi" href="https://aiphotolab.publicvm.com/?tool=crop&amp;lang=hi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.aiphotolab.publicvm.com/?tool=crop" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://www.aiphotolab.publicvm.com/?tool=crop&amp;lang=hi" />
   </url>
   <url>
-    <loc>https://aiphotolab.publicvm.com/?tool=video-compress</loc>
-    <lastmod>2026-10-17</lastmod>
+    <loc>https://www.aiphotolab.publicvm.com/?tool=video-compress</loc>
+    <lastmod>2026-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://aiphotolab.publicvm.com/?tool=video-compress" />
-    <xhtml:link rel="alternate" hreflang="hi" href="https://aiphotolab.publicvm.com/?tool=video-compress&amp;lang=hi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.aiphotolab.publicvm.com/?tool=video-compress" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://www.aiphotolab.publicvm.com/?tool=video-compress&amp;lang=hi" />
   </url>
 
-  <!-- Tutorials & Knowledge Base Hub -->
+  <!-- Tutorials & Guides -->
   <url>
-    <loc>https://aiphotolab.publicvm.com/?view=tutorials</loc>
-    <lastmod>2026-10-17</lastmod>
+    <loc>https://www.aiphotolab.publicvm.com/?view=tutorials</loc>
+    <lastmod>2026-10-19</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://aiphotolab.publicvm.com/?view=tutorials" />
-    <xhtml:link rel="alternate" hreflang="hi" href="https://aiphotolab.publicvm.com/?view=tutorials&amp;lang=hi" />
+    <priority>0.80</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.aiphotolab.publicvm.com/?view=tutorials" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://www.aiphotolab.publicvm.com/?view=tutorials&amp;lang=hi" />
   </url>
 
-  <!-- High-Ranking Step-by-Step Educational Guides -->
   <url>
-    <loc>https://aiphotolab.publicvm.com/?tut=compress-without-losing-quality</loc>
-    <lastmod>2026-10-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://aiphotolab.publicvm.com/?tut=compress-without-losing-quality" />
-    <xhtml:link rel="alternate" hreflang="hi" href="https://aiphotolab.publicvm.com/?tut=compress-without-losing-quality&amp;lang=hi" />
-  </url>
-  <url>
-    <loc>https://aiphotolab.publicvm.com/?tut=government-exam-passport-photo-guide</loc>
-    <lastmod>2026-10-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.90</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://aiphotolab.publicvm.com/?tut=government-exam-passport-photo-guide" />
-    <xhtml:link rel="alternate" hreflang="hi" href="https://aiphotolab.publicvm.com/?tut=government-exam-passport-photo-guide&amp;lang=hi" />
-  </url>
-  <url>
-    <loc>https://aiphotolab.publicvm.com/?tut=webp-vs-jpg-vs-png-guide</loc>
-    <lastmod>2026-10-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://aiphotolab.publicvm.com/?tut=webp-vs-jpg-vs-png-guide" />
-    <xhtml:link rel="alternate" hreflang="hi" href="https://aiphotolab.publicvm.com/?tut=webp-vs-jpg-vs-png-guide&amp;lang=hi" />
-  </url>
-  <url>
-    <loc>https://aiphotolab.publicvm.com/?tut=resizing-aspect-ratio-and-dpi-guide</loc>
-    <lastmod>2026-10-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://aiphotolab.publicvm.com/?tut=resizing-aspect-ratio-and-dpi-guide" />
-    <xhtml:link rel="alternate" hreflang="hi" href="https://aiphotolab.publicvm.com/?tut=resizing-aspect-ratio-and-dpi-guide&amp;lang=hi" />
-  </url>
-  <url>
-    <loc>https://aiphotolab.publicvm.com/?tut=client-side-privacy-architecture-guide</loc>
-    <lastmod>2026-10-17</lastmod>
+    <loc>https://www.aiphotolab.publicvm.com/?tut=compress-without-losing-quality</loc>
+    <lastmod>2026-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://aiphotolab.publicvm.com/?tut=client-side-privacy-architecture-guide" />
-    <xhtml:link rel="alternate" hreflang="hi" href="https://aiphotolab.publicvm.com/?tut=client-side-privacy-architecture-guide&amp;lang=hi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.aiphotolab.publicvm.com/?tut=compress-without-losing-quality" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://www.aiphotolab.publicvm.com/?tut=compress-without-losing-quality&amp;lang=hi" />
   </url>
   <url>
-    <loc>https://aiphotolab.publicvm.com/?tut=how-video-compression-works-guide</loc>
-    <lastmod>2026-10-17</lastmod>
+    <loc>https://www.aiphotolab.publicvm.com/?tut=government-exam-passport-photo-guide</loc>
+    <lastmod>2026-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://aiphotolab.publicvm.com/?tut=how-video-compression-works-guide" />
-    <xhtml:link rel="alternate" hreflang="hi" href="https://aiphotolab.publicvm.com/?tut=how-video-compression-works-guide&amp;lang=hi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.aiphotolab.publicvm.com/?tut=government-exam-passport-photo-guide" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://www.aiphotolab.publicvm.com/?tut=government-exam-passport-photo-guide&amp;lang=hi" />
+  </url>
+  <url>
+    <loc>https://www.aiphotolab.publicvm.com/?tut=webp-vs-jpg-vs-png-guide</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.aiphotolab.publicvm.com/?tut=webp-vs-jpg-vs-png-guide" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://www.aiphotolab.publicvm.com/?tut=webp-vs-jpg-vs-png-guide&amp;lang=hi" />
+  </url>
+  <url>
+    <loc>https://www.aiphotolab.publicvm.com/?tut=resizing-aspect-ratio-and-dpi-guide</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.aiphotolab.publicvm.com/?tut=resizing-aspect-ratio-and-dpi-guide" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://www.aiphotolab.publicvm.com/?tut=resizing-aspect-ratio-and-dpi-guide&amp;lang=hi" />
+  </url>
+  <url>
+    <loc>https://www.aiphotolab.publicvm.com/?tut=client-side-privacy-architecture-guide</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.aiphotolab.publicvm.com/?tut=client-side-privacy-architecture-guide" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://www.aiphotolab.publicvm.com/?tut=client-side-privacy-architecture-guide&amp;lang=hi" />
+  </url>
+  <url>
+    <loc>https://www.aiphotolab.publicvm.com/?tut=how-video-compression-works-guide</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.aiphotolab.publicvm.com/?tut=how-video-compression-works-guide" />
+    <xhtml:link rel="alternate" hreflang="hi" href="https://www.aiphotolab.publicvm.com/?tut=how-video-compression-works-guide&amp;lang=hi" />
   </url>
 
-  <!-- Legal & Informational Pages -->
+  <!-- Legal & Trust Pages -->
   <url>
-    <loc>https://aiphotolab.publicvm.com/?view=about</loc>
-    <lastmod>2026-10-17</lastmod>
+    <loc>https://www.aiphotolab.publicvm.com/?view=about</loc>
+    <lastmod>2026-10-19</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.60</priority>
+    <priority>0.65</priority>
   </url>
   <url>
-    <loc>https://aiphotolab.publicvm.com/?view=contact</loc>
-    <lastmod>2026-10-17</lastmod>
+    <loc>https://www.aiphotolab.publicvm.com/?view=contact</loc>
+    <lastmod>2026-10-19</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.60</priority>
+    <priority>0.65</priority>
   </url>
   <url>
-    <loc>https://aiphotolab.publicvm.com/?view=privacy</loc>
-    <lastmod>2026-10-17</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.50</priority>
+    <loc>https://www.aiphotolab.publicvm.com/?view=privacy</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
   </url>
   <url>
-    <loc>https://aiphotolab.publicvm.com/?view=terms</loc>
-    <lastmod>2026-10-17</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.50</priority>
+    <loc>https://www.aiphotolab.publicvm.com/?view=terms</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://www.aiphotolab.publicvm.com/?view=disclaimer</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
   </url>
 </urlset>

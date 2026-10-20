@@ -11,18 +11,18 @@
         var search = window.location.search;
         var hash = window.location.hash;
 
-        // Map path segments to query parameters
+        // Map path segments to clean directory paths or tool routes
         var cleanPath = path.replace(/^\/+|\/+$/g, '');
-        if (cleanPath === 'compress' || cleanPath === 'passport' || cleanPath === 'resize' || 
-            cleanPath === 'convert' || cleanPath === 'crop' || cleanPath === 'cutout' || cleanPath === 'video-compress') {
-          window.location.replace('/?tool=' + cleanPath + (search ? '&' + search.slice(1) : '') + hash);
+        if (cleanPath === 'passport') {
+          window.location.replace('/passport-photo/' + (search || '') + (hash || ''));
+        } else if (cleanPath === 'compress' || cleanPath === 'passport-photo' || cleanPath === 'resize' || 
+            cleanPath === 'convert' || cleanPath === 'crop' || cleanPath === 'cutout' || cleanPath === 'video-compress' ||
+            cleanPath === 'tutorials' || cleanPath === 'about' || cleanPath === 'contact' || cleanPath === 'privacy' || cleanPath === 'terms' || cleanPath === 'disclaimer') {
+          window.location.replace('/' + cleanPath + '/' + (search || '') + (hash || ''));
         } else if (cleanPath.startsWith('tutorials/') || cleanPath.startsWith('tut/')) {
           var tutSlug = cleanPath.split('/')[1];
           window.location.replace('/?tut=' + tutSlug + (search ? '&' + search.slice(1) : '') + hash);
-        } else if (cleanPath === 'tutorials' || cleanPath === 'about' || cleanPath === 'contact' || cleanPath === 'privacy' || cleanPath === 'terms') {
-          window.location.replace('/?view=' + cleanPath + (search ? '&' + search.slice(1) : '') + hash);
         } else {
-          // Fallback to home with original path retained
           window.location.replace('/' + (search || '') + (hash || ''));
         }
       })();

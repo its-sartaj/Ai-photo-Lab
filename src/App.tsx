@@ -60,12 +60,39 @@ function MainApp() {
   // Parse URL query params and handle browser back/forward navigation
   useEffect(() => {
     const syncFromUrl = () => {
+      const pathSegment = window.location.pathname.replace(/^\/+|\/+$/g, '');
       const params = new URLSearchParams(window.location.search);
       const toolParam = params.get('tool') as ToolId | null;
       const viewParam = params.get('view') as PageView | null;
       const tutId = params.get('tut');
 
-      if (toolParam && ['compress', 'resize', 'convert', 'crop', 'passport', 'cutout', 'video-compress'].includes(toolParam)) {
+      // 1. Path-based clean routing (/compress/, /passport-photo/, etc.)
+      if (pathSegment === 'compress') {
+        setActiveTool('compress');
+        setCurrentView('tool');
+      } else if (pathSegment === 'passport-photo' || pathSegment === 'passport') {
+        setActiveTool('passport');
+        setCurrentView('tool');
+      } else if (pathSegment === 'resize') {
+        setActiveTool('resize');
+        setCurrentView('tool');
+      } else if (pathSegment === 'video-compress') {
+        setActiveTool('video-compress');
+        setCurrentView('tool');
+      } else if (pathSegment === 'cutout') {
+        setActiveTool('cutout');
+        setCurrentView('tool');
+      } else if (pathSegment === 'convert') {
+        setActiveTool('convert');
+        setCurrentView('tool');
+      } else if (pathSegment === 'crop') {
+        setActiveTool('crop');
+        setCurrentView('tool');
+      } else if (['about', 'contact', 'privacy', 'terms', 'disclaimer', 'tutorials'].includes(pathSegment)) {
+        setCurrentView(pathSegment as PageView);
+      }
+      // 2. Query param based routing fallback
+      else if (toolParam && ['compress', 'resize', 'convert', 'crop', 'passport', 'cutout', 'video-compress'].includes(toolParam)) {
         setActiveTool(toolParam);
         setCurrentView('tool');
       } else if (tutId) {
@@ -147,7 +174,8 @@ function MainApp() {
       if (meta) {
         pageTitle = language === 'hi' ? meta.titleHi : meta.titleEn;
         pageDesc = language === 'hi' ? meta.descHi : meta.descEn;
-        pageCanonical = `https://www.aiphotolab.publicvm.com/?tool=${activeTool}`;
+        const slug = activeTool === 'passport' ? 'passport-photo' : activeTool;
+        pageCanonical = `https://www.aiphotolab.publicvm.com/${slug}/`;
       }
     } else if (currentView === 'tutorial-detail' && selectedTutorial) {
       pageTitle = `${language === 'hi' ? selectedTutorial.titleHi : selectedTutorial.titleEn} - AI Photo Lab`;
@@ -158,25 +186,25 @@ function MainApp() {
         ? 'फोटो एडिटिंग और कंप्रेशन गाइड्स (Hindi Guides) - AI Photo Lab'
         : 'Photo Editing & Image Compression Guides - AI Photo Lab';
       pageDesc = 'Comprehensive step-by-step tutorials on compressing photos to 20KB/50KB, government exam passport specifications, and format optimization.';
-      pageCanonical = 'https://www.aiphotolab.publicvm.com/?view=tutorials';
+      pageCanonical = 'https://www.aiphotolab.publicvm.com/tutorials/';
     } else if (currentView === 'about') {
       pageTitle = 'About AI Photo Lab - 100% Client-Side Private Photo Tools';
-      pageCanonical = 'https://www.aiphotolab.publicvm.com/?view=about';
+      pageCanonical = 'https://www.aiphotolab.publicvm.com/about/';
     } else if (currentView === 'privacy') {
       pageTitle = 'Privacy Policy - Zero Server Uploads | AI Photo Lab';
-      pageCanonical = 'https://www.aiphotolab.publicvm.com/?view=privacy';
+      pageCanonical = 'https://www.aiphotolab.publicvm.com/privacy/';
     } else if (currentView === 'terms') {
       pageTitle = 'Terms of Service | AI Photo Lab';
-      pageCanonical = 'https://www.aiphotolab.publicvm.com/?view=terms';
+      pageCanonical = 'https://www.aiphotolab.publicvm.com/terms/';
     } else if (currentView === 'contact') {
       pageTitle = 'Contact Support | AI Photo Lab';
-      pageCanonical = 'https://www.aiphotolab.publicvm.com/?view=contact';
+      pageCanonical = 'https://www.aiphotolab.publicvm.com/contact/';
     } else if (currentView === 'disclaimer') {
       pageTitle = language === 'hi'
         ? 'अस्वीकरण (Disclaimer) - गैर-सरकारी उपकरण | AI Photo Lab'
         : 'Disclaimer - Independent Utility Tool | AI Photo Lab';
       pageDesc = 'AI Photo Lab is an independent browser-based image utility and is not affiliated, associated, or endorsed by any government agency (SSC, UPSC, NTA, IBPS).';
-      pageCanonical = 'https://www.aiphotolab.publicvm.com/?view=disclaimer';
+      pageCanonical = 'https://www.aiphotolab.publicvm.com/disclaimer/';
     }
 
     // Set Document Title
@@ -205,23 +233,26 @@ function MainApp() {
 
   // Update browser URL query without reload
   const updateUrl = (view: PageView, tool?: ToolId, tutId?: string) => {
-    const url = new URL(window.location.href);
+    let newPath = '/';
+    const params = new URLSearchParams();
     const existingLang = new URLSearchParams(window.location.search).get('lang');
-    url.search = '';
 
     if (view === 'tool' && tool) {
-      url.searchParams.set('tool', tool);
+      const slug = tool === 'passport' ? 'passport-photo' : tool;
+      newPath = `/${slug}/`;
     } else if (view === 'tutorial-detail' && tutId) {
-      url.searchParams.set('tut', tutId);
+      newPath = '/tutorials/';
+      params.set('tut', tutId);
     } else if (view !== 'home') {
-      url.searchParams.set('view', view);
+      newPath = `/${view}/`;
     }
 
     if (existingLang || language === 'hi') {
-      url.searchParams.set('lang', existingLang || language);
+      params.set('lang', existingLang || language);
     }
 
-    window.history.pushState({}, '', url.toString());
+    const queryStr = params.toString() ? `?${params.toString()}` : '';
+    window.history.pushState({}, '', `${newPath}${queryStr}`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 

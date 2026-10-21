@@ -76,7 +76,7 @@ export const Header: React.FC<HeaderProps> = ({
                 handleViewClick('home');
               }
             }}
-            aria-label="AI Photo Lab Home"
+            aria-label="AI Photo Lab"
             className="flex items-center gap-2.5 cursor-pointer group select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-xl"
           >
             <Logo variant="icon" size={40} className="transition-transform group-hover:scale-105" />

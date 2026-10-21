@@ -97,7 +97,7 @@ export const AdSenseBanner: React.FC<AdSenseBannerProps> = ({
           <span className="inline-block w-2 h-2 rounded-full bg-purple-400"></span>
           {config.label}
         </span>
-        <span className="text-[10px] text-slate-400 font-normal">AdSense Compliant</span>
+        <span className="text-[10px] text-slate-500 font-normal">AdSense Compliant</span>
       </div>
 
       <div className="rounded-xl border border-dashed border-purple-200 bg-purple-50/40 hover:bg-purple-50/70 flex flex-col items-center justify-center text-center p-4 transition-all duration-200 hover:border-purple-300">

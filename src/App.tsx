@@ -5,7 +5,6 @@ import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { HomePage } from './components/HomePage';
 import { AdSenseBanner } from './components/AdSenseBanner';
-import { TUTORIALS_DATA } from './data/tutorialsData';
 import {
   Sliders,
   Maximize2,
@@ -96,13 +95,15 @@ function MainApp() {
         setActiveTool(toolParam);
         setCurrentView('tool');
       } else if (tutId) {
-        const match = TUTORIALS_DATA.find((t) => t.id === tutId);
-        if (match) {
-          setSelectedTutorial(match);
-          setCurrentView('tutorial-detail');
-        } else {
-          setCurrentView('tutorials');
-        }
+        import('./data/tutorialsData').then(({ TUTORIALS_DATA }) => {
+          const match = TUTORIALS_DATA.find((t) => t.id === tutId);
+          if (match) {
+            setSelectedTutorial(match);
+            setCurrentView('tutorial-detail');
+          } else {
+            setCurrentView('tutorials');
+          }
+        });
       } else if (viewParam) {
         setCurrentView(viewParam);
       } else {

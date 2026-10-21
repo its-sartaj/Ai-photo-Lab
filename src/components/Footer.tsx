@@ -41,7 +41,7 @@ export const Footer: React.FC<FooterProps> = ({
                   onNavigateView('home');
                 }
               }}
-              aria-label="AI Photo Lab Home"
+              aria-label="AI Photo Lab"
               className="flex items-center gap-2.5 cursor-pointer group inline-flex focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 rounded-xl"
             >
               <Logo variant="icon" size={38} className="transition-transform group-hover:scale-105" />
@@ -222,7 +222,7 @@ export const Footer: React.FC<FooterProps> = ({
         </div>
 
         {/* Bottom copyright row */}
-        <div className="mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <div className="mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
           <div>
             © AI Photo Lab. {t.footer.allRights}
           </div>

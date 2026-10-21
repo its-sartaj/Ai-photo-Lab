@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ToolId, TutorialItem, PageView } from '../types';
 import { useLanguage } from '../i18n/LanguageContext';
-import { TUTORIALS_DATA } from '../data/tutorialsData';
+import { FEATURED_TUTORIALS } from '../data/featuredTutorials';
 import { AdSenseBanner } from './AdSenseBanner';
 import { Logo } from './Logo';
 import {
@@ -110,7 +110,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       tool.desc.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const featuredTutorials = TUTORIALS_DATA.slice(0, 3);
+  const featuredTutorials = FEATURED_TUTORIALS;
 
   const faqs = [
     {
@@ -311,7 +311,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                     onSelectTool(tool.id);
                   }
                 }}
-                aria-label={tool.name}
+                aria-labelledby={`tool-title-${tool.id}`}
                 className="group relative bg-white rounded-3xl border border-slate-200/90 hover:border-purple-400 p-6 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500"
               >
                 <div>
@@ -326,7 +326,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-bold text-slate-900 group-hover:text-purple-600 transition-colors mb-2">
+                  <h3 id={`tool-title-${tool.id}`} className="text-lg font-bold text-slate-900 group-hover:text-purple-600 transition-colors mb-2">
                     {tool.name}
                   </h3>
 
@@ -340,7 +340,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                     <span>{language === 'hi' ? 'टूल खोलें' : 'Open Tool'}</span>
                     <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                   </span>
-                  <span className="text-[11px] text-slate-400 font-normal">
+                  <span className="text-[11px] text-slate-500 font-normal">
                     {language === 'hi' ? 'तुरंत' : 'Instant'}
                   </span>
                 </div>
@@ -513,7 +513,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                     <span className="px-2.5 py-0.5 rounded-full bg-purple-50 text-purple-700 font-semibold border border-purple-100">
                       {cat}
                     </span>
-                    <span className="text-slate-400 flex items-center gap-1">
+                    <span className="text-slate-500 flex items-center gap-1">
                       <Clock className="w-3.5 h-3.5" />
                       {tut.readTime}
                     </span>

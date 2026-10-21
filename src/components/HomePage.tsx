@@ -302,17 +302,8 @@ export const HomePage: React.FC<HomePageProps> = ({
             return (
               <div
                 key={tool.id}
-                role="button"
-                tabIndex={0}
                 onClick={() => onSelectTool(tool.id)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    onSelectTool(tool.id);
-                  }
-                }}
-                aria-labelledby={`tool-title-${tool.id}`}
-                className="group relative bg-white rounded-3xl border border-slate-200/90 hover:border-purple-400 p-6 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500"
+                className="group relative bg-white rounded-3xl border border-slate-200/90 hover:border-purple-400 p-6 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between cursor-pointer"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
@@ -336,10 +327,17 @@ export const HomePage: React.FC<HomePageProps> = ({
                 </div>
 
                 <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-purple-600 group-hover:text-purple-700">
-                  <span className="inline-flex items-center gap-1">
-                    <span>{language === 'hi' ? 'टूल खोलें' : 'Open Tool'}</span>
+                  <a
+                    href={`/?tool=${tool.id}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onSelectTool(tool.id);
+                    }}
+                    className="inline-flex items-center gap-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded text-inherit no-underline"
+                  >
+                    <span>{language === 'hi' ? `${tool.name} खोलें` : `Open ${tool.name}`}</span>
                     <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                  </span>
+                  </a>
                   <span className="text-[11px] text-slate-500 font-normal">
                     {language === 'hi' ? 'तुरंत' : 'Instant'}
                   </span>

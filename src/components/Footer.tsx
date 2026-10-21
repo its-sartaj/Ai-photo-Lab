@@ -31,24 +31,19 @@ export const Footer: React.FC<FooterProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Brand Column */}
           <div className="lg:col-span-2 space-y-4">
-            <div
-              role="button"
-              tabIndex={0}
-              onClick={() => onNavigateView('home')}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  onNavigateView('home');
-                }
+            <a
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigateView('home');
               }}
-              aria-label="AI Photo Lab"
-              className="flex items-center gap-2.5 cursor-pointer group inline-flex focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 rounded-xl"
+              className="flex items-center gap-2.5 cursor-pointer group inline-flex focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 rounded-xl text-inherit no-underline"
             >
               <Logo variant="icon" size={38} className="transition-transform group-hover:scale-105" />
               <span className="font-extrabold text-xl text-white tracking-tight group-hover:text-purple-400 transition-colors">
                 AI Photo Lab
               </span>
-            </div>
+            </a>
 
             <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
               {t.footer.aboutText}

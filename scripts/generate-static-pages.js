@@ -12,7 +12,37 @@ if (!fs.existsSync(indexHtmlPath)) {
   process.exit(1);
 }
 
-const baseHtml = fs.readFileSync(indexHtmlPath, 'utf-8');
+let baseHtml = fs.readFileSync(indexHtmlPath, 'utf-8');
+
+// 1. Inline critical CSS to eliminate render-blocking stylesheet
+const assetsDir = path.join(distDir, 'assets');
+if (fs.existsSync(assetsDir)) {
+  const cssFiles = fs.readdirSync(assetsDir).filter(f => f.endsWith('.css'));
+  if (cssFiles.length > 0) {
+    const cssFileName = cssFiles[0];
+    const cssContent = fs.readFileSync(path.join(assetsDir, cssFileName), 'utf-8');
+    baseHtml = baseHtml.replace(
+      /<link rel="stylesheet" crossorigin href="\/assets\/index-[^"]+\.css">/i,
+      `<style>\n${cssContent}\n</style>`
+    );
+    console.log(`Inlined ${cssFileName} directly into HTML to eliminate render-blocking CSS!`);
+  }
+
+  // 2. Add modulepreload for the entry JavaScript chunk
+  const jsFiles = fs.readdirSync(assetsDir).filter(f => f.startsWith('index-') && f.endsWith('.js'));
+  if (jsFiles.length > 0) {
+    const jsChunk = `/assets/${jsFiles[0]}`;
+    if (!baseHtml.includes(`rel="modulepreload" href="${jsChunk}"`)) {
+      baseHtml = baseHtml.replace(
+        '</head>',
+        `  <link rel="modulepreload" href="${jsChunk}" />\n  </head>`
+      );
+    }
+  }
+
+  // Update dist/index.html with the optimized base HTML
+  fs.writeFileSync(indexHtmlPath, baseHtml, 'utf-8');
+}
 
 const pages = [
   {

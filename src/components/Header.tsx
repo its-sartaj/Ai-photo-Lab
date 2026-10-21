@@ -66,18 +66,13 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-18">
           {/* Brand Logo */}
-          <div
-            role="button"
-            tabIndex={0}
-            onClick={() => handleViewClick('home')}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                handleViewClick('home');
-              }
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              handleViewClick('home');
             }}
-            aria-label="AI Photo Lab"
-            className="flex items-center gap-2.5 cursor-pointer group select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-xl"
+            className="flex items-center gap-2.5 cursor-pointer group select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-xl text-inherit no-underline"
           >
             <Logo variant="icon" size={40} className="transition-transform group-hover:scale-105" />
             <div>
@@ -93,7 +88,7 @@ export const Header: React.FC<HeaderProps> = ({
                 {language === 'hi' ? 'मुफ्त ऑनलाइन फोटो टूल्स' : 'Edit • Resize • Compress'}
               </span>
             </div>
-          </div>
+          </a>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-1 lg:gap-2">

@@ -20,6 +20,17 @@ export const ConverterTool: React.FC = () => {
   const [quality, setQuality] = useState<number>(85);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [result, setResult] = useState<EngineResult | null>(null);
+  const resultUrlRef = React.useRef<string | null>(null);
+
+  useEffect(() => {
+    resultUrlRef.current = result?.objectUrl || null;
+  }, [result]);
+
+  useEffect(() => {
+    return () => {
+      if (resultUrlRef.current) URL.revokeObjectURL(resultUrlRef.current);
+    };
+  }, []);
 
   const handleImageSelected = async (selectedFile: File) => {
     try {
@@ -123,6 +134,7 @@ export const ConverterTool: React.FC = () => {
               </div>
               <button
                 onClick={() => {
+                  if (result?.objectUrl) URL.revokeObjectURL(result.objectUrl);
                   setFile(null);
                   setOriginalImage(null);
                   setResult(null);

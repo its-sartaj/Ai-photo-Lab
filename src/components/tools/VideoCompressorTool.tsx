@@ -275,7 +275,9 @@ export const VideoCompressorTool: React.FC = () => {
               accept="video/mp4,video/webm,video/quicktime,video/x-matroska,.mp4,.webm,.mov,.mkv"
               onChange={(e) => {
                 if (e.target.files && e.target.files.length > 0) {
-                  handleVideoFile(e.target.files[0]);
+                  const selected = e.target.files[0];
+                  e.target.value = '';
+                  handleVideoFile(selected);
                 }
               }}
               className="hidden"

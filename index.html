@@ -230,6 +230,12 @@
     }
     </script>
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+      <!-- Client-side HTTPS auto-upgrade (preserves HTTP for DNSExit verification crawler) -->
+        <script>
+          if (location.protocol === 'http:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
+            location.replace('https://' + location.host + location.pathname + location.search + location.hash);
+          }
+        </script>
   </head>
   <body class="bg-slate-50 text-slate-900 font-sans antialiased selection:bg-purple-100 selection:text-purple-900 min-h-screen">
     
@@ -516,11 +522,5 @@
       </main>
     </div>
     <script type="module" src="/src/main.tsx"></script>
-      <!-- Client-side HTTPS auto-upgrade (preserves HTTP for DNSExit verification crawler) -->
-    <script>
-      if (location.protocol === 'http:' && !['localhost', '127.0.0.1'].includes(location.hostname)) {
-        location.replace('https://' + location.host + location.pathname + location.search + location.hash);
-      }
-    </script>
   </body>
 </html>

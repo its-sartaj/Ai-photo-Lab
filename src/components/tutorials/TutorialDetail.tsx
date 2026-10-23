@@ -148,6 +148,38 @@ export const TutorialDetail: React.FC<TutorialDetailProps> = ({
       }
     });
 
+    // Flush any pending trailing table at the end of content
+    if (inTable && tableRows.length > 0) {
+      const header = tableRows[0];
+      const body = tableRows.slice(1);
+      elements.push(
+        <div key="table-trailing" className="my-6 overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
+          <table className="w-full text-left text-xs md:text-sm">
+            <thead className="bg-purple-50/80 text-purple-900 font-bold border-b border-purple-100">
+              <tr>
+                {header.map((col, cIdx) => (
+                  <th key={cIdx} className="px-4 py-3">
+                    {col}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 bg-white">
+              {body.map((row, rIdx) => (
+                <tr key={rIdx} className="hover:bg-slate-50/60 transition-colors">
+                  {row.map((cell, cIdx) => (
+                    <td key={cIdx} className="px-4 py-3 text-slate-700">
+                      {cell}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    }
+
     return elements;
   };
 

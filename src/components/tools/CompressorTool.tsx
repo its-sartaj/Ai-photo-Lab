@@ -23,6 +23,17 @@ export const CompressorTool: React.FC = () => {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [compressedResult, setCompressedResult] = useState<EngineResult | null>(null);
   const [compareMode, setCompareMode] = useState<'preview' | 'split'>('preview');
+  const resultUrlRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    resultUrlRef.current = compressedResult?.objectUrl || null;
+  }, [compressedResult]);
+
+  useEffect(() => {
+    return () => {
+      if (resultUrlRef.current) URL.revokeObjectURL(resultUrlRef.current);
+    };
+  }, []);
 
   const handleImageSelected = async (selectedFile: File) => {
     try {
@@ -149,6 +160,7 @@ export const CompressorTool: React.FC = () => {
               </div>
               <button
                 onClick={() => {
+                  if (compressedResult?.objectUrl) URL.revokeObjectURL(compressedResult.objectUrl);
                   setFile(null);
                   setOriginalImage(null);
                   setCompressedResult(null);

@@ -141,20 +141,44 @@ export const CropperTool: React.FC = () => {
       const dy = (e.clientY - dragStart.y) / rect.height;
 
       let next = { ...startCrop };
+      let targetRatio: number | null = null;
+      if (aspect !== 'free') {
+        const [wRatio, hRatio] = aspect.split(':').map(Number);
+        targetRatio = wRatio / hRatio;
+      }
 
       if (dragAction === 'move') {
         next.x = Math.max(0, Math.min(1 - next.width, startCrop.x + dx));
         next.y = Math.max(0, Math.min(1 - next.height, startCrop.y + dy));
       } else if (dragAction === 'se') {
-        const newW = Math.max(0.08, Math.min(1 - startCrop.x, startCrop.width + dx));
-        const newH = Math.max(0.08, Math.min(1 - startCrop.y, startCrop.height + dy));
+        let newW = Math.max(0.08, Math.min(1 - startCrop.x, startCrop.width + dx));
+        let newH = Math.max(0.08, Math.min(1 - startCrop.y, startCrop.height + dy));
+        if (targetRatio) {
+          newH = (newW * rect.width) / (targetRatio * rect.height);
+          if (startCrop.y + newH > 1) {
+            newH = 1 - startCrop.y;
+            newW = (newH * rect.height * targetRatio) / rect.width;
+          }
+        }
         next.width = newW;
         next.height = newH;
       } else if (dragAction === 'nw') {
-        const newX = Math.max(0, Math.min(startCrop.x + startCrop.width - 0.08, startCrop.x + dx));
-        const newY = Math.max(0, Math.min(startCrop.y + startCrop.height - 0.08, startCrop.y + dy));
-        next.width = startCrop.width + (startCrop.x - newX);
-        next.height = startCrop.height + (startCrop.y - newY);
+        let newX = Math.max(0, Math.min(startCrop.x + startCrop.width - 0.08, startCrop.x + dx));
+        let newY = Math.max(0, Math.min(startCrop.y + startCrop.height - 0.08, startCrop.y + dy));
+        let newW = startCrop.width + (startCrop.x - newX);
+        let newH = startCrop.height + (startCrop.y - newY);
+        if (targetRatio) {
+          newH = (newW * rect.width) / (targetRatio * rect.height);
+          newY = startCrop.y + startCrop.height - newH;
+          if (newY < 0) {
+            newY = 0;
+            newH = startCrop.y + startCrop.height;
+            newW = (newH * rect.height * targetRatio) / rect.width;
+            newX = startCrop.x + startCrop.width - newW;
+          }
+        }
+        next.width = newW;
+        next.height = newH;
         next.x = newX;
         next.y = newY;
       }

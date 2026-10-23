@@ -14,13 +14,17 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguageState] = useState<Language>(() => {
     if (typeof window !== 'undefined') {
-      const urlLang = new URLSearchParams(window.location.search).get('lang');
-      if (urlLang === 'hi' || urlLang === 'en') {
-        localStorage.setItem('ai_photo_lab_lang', urlLang);
-        return urlLang;
+      try {
+        const urlLang = new URLSearchParams(window.location.search).get('lang');
+        if (urlLang === 'hi' || urlLang === 'en') {
+          localStorage.setItem('ai_photo_lab_lang', urlLang);
+          return urlLang;
+        }
+        const saved = localStorage.getItem('ai_photo_lab_lang');
+        if (saved === 'en' || saved === 'hi') return saved;
+      } catch (err) {
+        console.warn('LocalStorage unavailable:', err);
       }
-      const saved = localStorage.getItem('ai_photo_lab_lang');
-      if (saved === 'en' || saved === 'hi') return saved;
     }
     return 'en';
   });
@@ -28,7 +32,11 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
     if (typeof window !== 'undefined') {
-      localStorage.setItem('ai_photo_lab_lang', lang);
+      try {
+        localStorage.setItem('ai_photo_lab_lang', lang);
+      } catch (err) {
+        console.warn('LocalStorage save failed:', err);
+      }
       document.documentElement.lang = lang;
 
       // Update URL query parameter seamlessly

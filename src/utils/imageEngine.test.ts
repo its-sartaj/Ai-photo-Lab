@@ -6,6 +6,7 @@ import {
   parseHexColor,
   eraseBrushOnMask,
   brushOnMask,
+  scaleMask,
 } from './imageEngine';
 import { translations } from '../i18n/translations';
 import { TUTORIALS_DATA } from '../data/tutorialsData';
@@ -312,6 +313,22 @@ describe('AI Photo Lab - Performance & Engine Unit Tests', () => {
       const val = top + fy * (bottom - top);
 
       expect(val).toBe(0.5);
+    });
+
+    it('scales mask dimensions correctly for HD/4K export via scaleMask', () => {
+      const srcW = 2;
+      const srcH = 2;
+      // 2x2 mask: 0 (bg) on left, 255 (subject) on right
+      const srcMask = new Uint8Array([0, 255, 0, 255]);
+      const targetW = 4;
+      const targetH = 4;
+
+      const scaled = scaleMask(srcMask, srcW, srcH, targetW, targetH);
+      expect(scaled.length).toBe(targetW * targetH);
+      // Top-left should remain background (0)
+      expect(scaled[0]).toBe(0);
+      // Top-right should remain subject (255)
+      expect(scaled[3]).toBe(255);
     });
   });
 });

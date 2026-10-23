@@ -65,7 +65,21 @@ function MainApp() {
       const viewParam = params.get('view') as PageView | null;
       const tutId = params.get('tut');
 
-      // 1. Path-based clean routing (/compress/, /passport-photo/, etc.)
+      // 1. Check tutorial ID first to ensure direct /tutorials/?tut=id deep-links always render
+      if (tutId) {
+        import('./data/tutorialsData').then(({ TUTORIALS_DATA }) => {
+          const match = TUTORIALS_DATA.find((t) => t.id === tutId);
+          if (match) {
+            setSelectedTutorial(match);
+            setCurrentView('tutorial-detail');
+          } else {
+            setCurrentView('tutorials');
+          }
+        });
+        return;
+      }
+
+      // 2. Path-based clean routing (/compress/, /passport-photo/, etc.)
       if (pathSegment === 'compress') {
         setActiveTool('compress');
         setCurrentView('tool');
@@ -90,20 +104,10 @@ function MainApp() {
       } else if (['about', 'contact', 'privacy', 'terms', 'disclaimer', 'tutorials'].includes(pathSegment)) {
         setCurrentView(pathSegment as PageView);
       }
-      // 2. Query param based routing fallback
+      // 3. Query param based routing fallback
       else if (toolParam && ['compress', 'resize', 'convert', 'crop', 'passport', 'cutout', 'video-compress'].includes(toolParam)) {
         setActiveTool(toolParam);
         setCurrentView('tool');
-      } else if (tutId) {
-        import('./data/tutorialsData').then(({ TUTORIALS_DATA }) => {
-          const match = TUTORIALS_DATA.find((t) => t.id === tutId);
-          if (match) {
-            setSelectedTutorial(match);
-            setCurrentView('tutorial-detail');
-          } else {
-            setCurrentView('tutorials');
-          }
-        });
       } else if (viewParam) {
         setCurrentView(viewParam);
       } else {
@@ -370,17 +374,21 @@ function MainApp() {
           </Suspense>
         )}
 
-        {currentView === 'tutorial-detail' && selectedTutorial && (
-          <Suspense fallback={<ToolLoadingFallback />}>
-            <div>
-              <TutorialDetail
-                tutorial={selectedTutorial}
-                onBack={() => handleNavigateView('tutorials')}
-                onOpenTool={handleSelectTool}
-              />
-              <AdSenseBanner slotType="in-content" onOpenAdGuide={() => setIsAdGuideOpen(true)} />
-            </div>
-          </Suspense>
+        {currentView === 'tutorial-detail' && (
+          selectedTutorial ? (
+            <Suspense fallback={<ToolLoadingFallback />}>
+              <div>
+                <TutorialDetail
+                  tutorial={selectedTutorial}
+                  onBack={() => handleNavigateView('tutorials')}
+                  onOpenTool={handleSelectTool}
+                />
+                <AdSenseBanner slotType="in-content" onOpenAdGuide={() => setIsAdGuideOpen(true)} />
+              </div>
+            </Suspense>
+          ) : (
+            <ToolLoadingFallback />
+          )
         )}
 
         {currentView === 'about' && (

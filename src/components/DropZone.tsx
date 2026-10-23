@@ -59,7 +59,9 @@ export const DropZone: React.FC<DropZoneProps> = ({
 
   const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      validateAndProcess(e.target.files[0]);
+      const selected = e.target.files[0];
+      e.target.value = '';
+      validateAndProcess(selected);
     }
   };
 

@@ -3,6 +3,8 @@ import { useLanguage } from '../../i18n/LanguageContext';
 import { DropZone } from '../DropZone';
 import {
   loadImageFromFile,
+  loadCanvasFromFile,
+  scaleMask,
   autoDetectBackgroundMask,
   applyWandToMask,
   brushOnMask,
@@ -41,6 +43,8 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
+const MAX_WORK_DIMENSION = 1080;
+
 export const CutoutTool: React.FC = () => {
   const { t, language } = useLanguage();
   const [file, setFile] = useState<File | null>(null);
@@ -76,16 +80,18 @@ export const CutoutTool: React.FC = () => {
   // Core canvas & mask refs
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const originalCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const workingCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const originalDisplayCanvasRef = useRef<HTMLCanvasElement>(null);
   const maskRef = useRef<Uint8Array | null>(null);
   const historyRef = useRef<Uint8Array[]>([]);
   const isPaintingRef = useRef<boolean>(false);
   const lastPointRef = useRef<{ x: number; y: number } | null>(null);
+  const animFrameRef = useRef<number | null>(null);
 
   // Sync original display canvas (used in slider & original views)
   const syncOriginalCanvas = useCallback(() => {
-    if (!originalCanvasRef.current || !originalDisplayCanvasRef.current) return;
-    const orig = originalCanvasRef.current;
+    const orig = workingCanvasRef.current || originalCanvasRef.current;
+    if (!orig || !originalDisplayCanvasRef.current) return;
     const target = originalDisplayCanvasRef.current;
     if (target.width !== orig.width || target.height !== orig.height) {
       target.width = orig.width;
@@ -99,9 +105,10 @@ export const CutoutTool: React.FC = () => {
 
   // Update visible cutout canvas with current mask & background
   const updateDisplayCanvas = useCallback(() => {
-    if (!originalCanvasRef.current || !maskRef.current || !canvasRef.current) return;
+    const srcCanvas = workingCanvasRef.current || originalCanvasRef.current;
+    if (!srcCanvas || !maskRef.current || !canvasRef.current) return;
     renderMaskCompositeToCanvas(
-      originalCanvasRef.current,
+      srcCanvas,
       maskRef.current,
       canvasRef.current,
       replacementBg,
@@ -169,30 +176,42 @@ export const CutoutTool: React.FC = () => {
   };
 
   // Process a new uploaded image
-  const processNewImage = async (img: HTMLImageElement, initialFile: File) => {
+  const processNewImage = async (canvas: HTMLCanvasElement, initialFile: File) => {
     setFile(initialFile);
     setAiConfidence(null);
     setAiError(null);
     setViewMode('slider');
     setSliderPos(50);
 
-    // 1. Create pristine original canvas (never modified)
-    const origCanvas = document.createElement('canvas');
-    origCanvas.width = img.naturalWidth || img.width;
-    origCanvas.height = img.naturalHeight || img.height;
-    const origCtx = origCanvas.getContext('2d');
-    if (!origCtx) throw new Error('Could not create original canvas context');
-    origCtx.drawImage(img, 0, 0);
-    originalCanvasRef.current = origCanvas;
+    // 1. Store pristine original full-resolution canvas (never modified; used for HD export)
+    originalCanvasRef.current = canvas;
 
-    // 2. Automatically run AI background removal
-    await processWithAi(origCanvas);
+    // 2. Prepare optimized working canvas (capped at 1440px for mobile 60fps & 0-lag processing)
+    const maxDim = Math.max(canvas.width, canvas.height);
+    let workCanvas: HTMLCanvasElement;
+
+    if (maxDim > MAX_WORK_DIMENSION) {
+      const scale = MAX_WORK_DIMENSION / maxDim;
+      workCanvas = document.createElement('canvas');
+      workCanvas.width = Math.round(canvas.width * scale);
+      workCanvas.height = Math.round(canvas.height * scale);
+      const wCtx = workCanvas.getContext('2d');
+      if (wCtx) {
+        wCtx.drawImage(canvas, 0, 0, workCanvas.width, workCanvas.height);
+      }
+    } else {
+      workCanvas = canvas;
+    }
+    workingCanvasRef.current = workCanvas;
+
+    // 3. Automatically run AI background removal on working canvas
+    await processWithAi(workCanvas);
   };
 
   const handleImageSelected = async (selectedFile: File) => {
     try {
-      const img = await loadImageFromFile(selectedFile);
-      await processNewImage(img, selectedFile);
+      const canvas = await loadCanvasFromFile(selectedFile);
+      await processNewImage(canvas, selectedFile);
     } catch (err) {
       console.error(err);
     }
@@ -202,8 +221,8 @@ export const CutoutTool: React.FC = () => {
   const handleLoadSamplePortrait = async () => {
     try {
       const { file: sampleFile } = await generateSampleCutoutBlob();
-      const img = await loadImageFromFile(sampleFile);
-      await processNewImage(img, sampleFile);
+      const canvas = await loadCanvasFromFile(sampleFile);
+      await processNewImage(canvas, sampleFile);
     } catch (err) {
       console.error(err);
     }
@@ -213,8 +232,8 @@ export const CutoutTool: React.FC = () => {
   const handleLoadSampleProduct = async () => {
     try {
       const { file: sampleFile } = await generateSampleProductBlob();
-      const img = await loadImageFromFile(sampleFile);
-      await processNewImage(img, sampleFile);
+      const canvas = await loadCanvasFromFile(sampleFile);
+      await processNewImage(canvas, sampleFile);
     } catch (err) {
       console.error(err);
     }
@@ -243,10 +262,11 @@ export const CutoutTool: React.FC = () => {
 
   // Manual Color Wand
   const applyWandAt = (x: number, y: number) => {
-    if (!originalCanvasRef.current || !maskRef.current) return;
+    const work = workingCanvasRef.current || originalCanvasRef.current;
+    if (!work || !maskRef.current) return;
 
     const { newMask, sampledColor: color } = applyWandToMask(
-      originalCanvasRef.current,
+      work,
       maskRef.current,
       x,
       y,
@@ -278,11 +298,12 @@ export const CutoutTool: React.FC = () => {
       // Erase or Restore
       isPaintingRef.current = true;
       lastPointRef.current = coords;
-      if (originalCanvasRef.current && maskRef.current) {
+      const work = workingCanvasRef.current || originalCanvasRef.current;
+      if (work && maskRef.current) {
         brushOnMask(
           maskRef.current,
-          originalCanvasRef.current.width,
-          originalCanvasRef.current.height,
+          work.width,
+          work.height,
           coords.x,
           coords.y,
           coords.x,
@@ -302,11 +323,12 @@ export const CutoutTool: React.FC = () => {
     const coords = getCanvasCoords(e);
     if (!coords || !lastPointRef.current) return;
 
-    if (originalCanvasRef.current && maskRef.current) {
+    const work = workingCanvasRef.current || originalCanvasRef.current;
+    if (work && maskRef.current) {
       brushOnMask(
         maskRef.current,
-        originalCanvasRef.current.width,
-        originalCanvasRef.current.height,
+        work.width,
+        work.height,
         lastPointRef.current.x,
         lastPointRef.current.y,
         coords.x,
@@ -314,7 +336,12 @@ export const CutoutTool: React.FC = () => {
         brushSize / 2,
         toolMode
       );
-      updateDisplayCanvas();
+      if (!animFrameRef.current) {
+        animFrameRef.current = requestAnimationFrame(() => {
+          updateDisplayCanvas();
+          animFrameRef.current = null;
+        });
+      }
     }
     lastPointRef.current = coords;
   };
@@ -377,22 +404,38 @@ export const CutoutTool: React.FC = () => {
 
   // Re-run AI segmentation
   const handleRetryAi = async (forcedMode?: AiModelMode) => {
-    if (!originalCanvasRef.current) return;
-    await processWithAi(originalCanvasRef.current, forcedMode);
+    const work = workingCanvasRef.current || originalCanvasRef.current;
+    if (!work) return;
+    await processWithAi(work, forcedMode);
   };
 
   // Download final processed image
   const handleDownload = async (targetFormat?: 'png' | 'jpg') => {
-    if (!originalCanvasRef.current || !maskRef.current || !file) return;
+    const origCanvas = originalCanvasRef.current;
+    if (!origCanvas || !maskRef.current || !file) return;
 
     try {
       setIsExporting(true);
       // If user specifically requested 'png', force transparent or export PNG
       const exportBg = targetFormat === 'png' ? 'transparent' : targetFormat === 'jpg' && replacementBg === 'transparent' ? 'white' : replacementBg;
 
+      const workCanvas = workingCanvasRef.current || origCanvas;
+      let exportMask = maskRef.current;
+
+      // If working canvas was downscaled for phone performance, scale mask up to pristine original resolution
+      if (origCanvas.width !== workCanvas.width || origCanvas.height !== workCanvas.height) {
+        exportMask = scaleMask(
+          maskRef.current,
+          workCanvas.width,
+          workCanvas.height,
+          origCanvas.width,
+          origCanvas.height
+        );
+      }
+
       const result = await exportMaskResult(
-        originalCanvasRef.current,
-        maskRef.current,
+        origCanvas,
+        exportMask,
         exportBg,
         customBgHex,
         0.95,
@@ -486,6 +529,7 @@ export const CutoutTool: React.FC = () => {
                 onClick={() => {
                   setFile(null);
                   originalCanvasRef.current = null;
+                  workingCanvasRef.current = null;
                   maskRef.current = null;
                   historyRef.current = [];
                   setSampledColor(null);
@@ -1002,74 +1046,83 @@ export const CutoutTool: React.FC = () => {
 
             {/* Remove.bg Interactive Split Slider Container */}
             <div
-              onPointerDown={viewMode === 'slider' ? handleSliderPointerDown : undefined}
-              onPointerMove={viewMode === 'slider' ? handleSliderPointerMove : undefined}
-              onPointerUp={viewMode === 'slider' ? handleSliderPointerUp : undefined}
-              className={`relative w-full min-h-[360px] max-h-[540px] rounded-2xl overflow-hidden flex items-center justify-center border border-slate-200 select-none ${
-                viewMode === 'slider' ? 'cursor-ew-resize' : ''
-              } ${replacementBg === 'transparent' ? 'checkerboard-bg' : 'bg-slate-50'}`}
+              className={`relative w-full min-h-[360px] max-h-[540px] rounded-2xl overflow-hidden flex items-center justify-center border border-slate-200 select-none p-3 ${
+                replacementBg === 'transparent' ? 'checkerboard-bg' : 'bg-slate-50'
+              }`}
             >
-              {/* Processed Cutout Canvas Layer */}
-              <canvas
-                ref={canvasRef}
-                onPointerDown={handleCanvasPointerDown}
-                onPointerMove={handleCanvasPointerMove}
-                onPointerUp={handleCanvasPointerUp}
-                onPointerLeave={handleCanvasPointerUp}
-                className="max-h-[500px] max-w-full shadow-md rounded-lg pointer-events-auto"
-                style={{
-                  display: viewMode === 'original' ? 'none' : 'block',
-                  maxWidth: '100%',
-                  maxHeight: '500px',
-                  width: 'auto',
-                  height: 'auto',
-                  touchAction: 'none',
-                  cursor: viewMode === 'slider' ? 'ew-resize' : 'crosshair',
-                }}
-              />
+              {/* Inner wrapper that tightly hugs the canvases */}
+              <div
+                onPointerDown={viewMode === 'slider' ? handleSliderPointerDown : undefined}
+                onPointerMove={viewMode === 'slider' ? handleSliderPointerMove : undefined}
+                onPointerUp={viewMode === 'slider' ? handleSliderPointerUp : undefined}
+                className={`relative inline-block max-h-[500px] max-w-full rounded-lg overflow-hidden shadow-md ${
+                  viewMode === 'slider' ? 'cursor-ew-resize' : ''
+                }`}
+              >
+                {/* Processed Cutout Canvas Layer */}
+                <canvas
+                  ref={canvasRef}
+                  onPointerDown={handleCanvasPointerDown}
+                  onPointerMove={handleCanvasPointerMove}
+                  onPointerUp={handleCanvasPointerUp}
+                  onPointerLeave={handleCanvasPointerUp}
+                  className="max-h-[500px] max-w-full block pointer-events-auto"
+                  style={{
+                    display: viewMode === 'original' ? 'none' : 'block',
+                    maxWidth: '100%',
+                    maxHeight: '500px',
+                    width: 'auto',
+                    height: 'auto',
+                    touchAction: 'none',
+                    cursor: viewMode === 'slider' ? 'ew-resize' : 'crosshair',
+                  }}
+                />
 
-              {/* Original Canvas Layer (Used in Slider split or Original view) */}
-              <canvas
-                ref={originalDisplayCanvasRef}
-                className="max-h-[500px] max-w-full shadow-md rounded-lg pointer-events-none"
-                style={{
-                  display: viewMode === 'cutout' ? 'none' : 'block',
-                  position: viewMode === 'slider' ? 'absolute' : 'relative',
-                  maxWidth: '100%',
-                  maxHeight: '500px',
-                  width: 'auto',
-                  height: 'auto',
-                  clipPath: viewMode === 'slider' ? `inset(0 ${100 - sliderPos}% 0 0)` : 'none',
-                }}
-              />
+                {/* Original Canvas Layer (Used in Slider split or Original view) */}
+                <canvas
+                  ref={originalDisplayCanvasRef}
+                  className="max-h-[500px] max-w-full block pointer-events-none"
+                  style={{
+                    display: viewMode === 'cutout' ? 'none' : 'block',
+                    position: viewMode === 'slider' ? 'absolute' : 'relative',
+                    top: 0,
+                    left: 0,
+                    maxWidth: '100%',
+                    maxHeight: '500px',
+                    width: 'auto',
+                    height: 'auto',
+                    clipPath: viewMode === 'slider' ? `inset(0 ${100 - sliderPos}% 0 0)` : 'none',
+                  }}
+                />
 
-              {/* Slider Split Divider & Circular Pill Handle (Remove.bg Signature) */}
-              {viewMode === 'slider' && (
-                <div
-                  className="absolute top-0 bottom-0 pointer-events-none flex items-center justify-center"
-                  style={{ left: `${sliderPos}%`, transform: 'translateX(-50%)' }}
-                >
-                  {/* Vertical line */}
-                  <div className="w-0.5 h-full bg-white shadow-md" />
+                {/* Slider Split Divider & Circular Pill Handle (Remove.bg Signature) */}
+                {viewMode === 'slider' && (
+                  <div
+                    className="absolute top-0 bottom-0 pointer-events-none flex items-center justify-center z-10"
+                    style={{ left: `${sliderPos}%`, transform: 'translateX(-50%)' }}
+                  >
+                    {/* Vertical line */}
+                    <div className="w-0.5 h-full bg-white shadow-md" />
 
-                  {/* Circular draggable button */}
-                  <div className="absolute w-8 h-8 rounded-full bg-white shadow-xl border-2 border-purple-600 flex items-center justify-center text-purple-700 text-xs font-bold">
-                    ⇄
+                    {/* Circular draggable button */}
+                    <div className="absolute w-8 h-8 rounded-full bg-white shadow-xl border-2 border-purple-600 flex items-center justify-center text-purple-700 text-xs font-bold">
+                      ⇄
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {/* On-screen Badges for Split Slider */}
-              {viewMode === 'slider' && (
-                <>
-                  <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-xs text-white text-[10px] font-bold px-2 py-0.5 rounded-md pointer-events-none">
-                    {language === 'hi' ? 'मूल फोटो (Original)' : 'Original'}
-                  </div>
-                  <div className="absolute top-3 right-3 bg-purple-600/80 backdrop-blur-xs text-white text-[10px] font-bold px-2 py-0.5 rounded-md pointer-events-none">
-                    {language === 'hi' ? 'रिमूव्ड बैकग्राउंड' : 'Background Removed'}
-                  </div>
-                </>
-              )}
+                {/* On-screen Badges for Split Slider */}
+                {viewMode === 'slider' && (
+                  <>
+                    <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-xs text-white text-[10px] font-bold px-2 py-0.5 rounded-md pointer-events-none z-10">
+                      {language === 'hi' ? 'मूल फोटो (Original)' : 'Original'}
+                    </div>
+                    <div className="absolute top-3 right-3 bg-purple-600/80 backdrop-blur-xs text-white text-[10px] font-bold px-2 py-0.5 rounded-md pointer-events-none z-10">
+                      {language === 'hi' ? 'रिमूव्ड बैकग्राउंड' : 'Background Removed'}
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
 
             {/* Footer Status & Privacy Assurance */}

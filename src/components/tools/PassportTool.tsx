@@ -246,6 +246,7 @@ export const PassportTool: React.FC = () => {
               </div>
               <button
                 onClick={() => {
+                  if (result?.objectUrl) URL.revokeObjectURL(result?.objectUrl);
                   setFile(null);
                   setOriginalImage(null);
                   setResult(null);

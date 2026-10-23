@@ -23,7 +23,7 @@ if (fs.existsSync(assetsDir)) {
     const cssContent = fs.readFileSync(path.join(assetsDir, cssFileName), 'utf-8');
     baseHtml = baseHtml.replace(
       /<link rel="stylesheet" crossorigin href="\/assets\/index-[^"]+\.css">/i,
-      `<style>\n${cssContent}\n</style>`
+      () => `<style>\n${cssContent}\n</style>`
     );
     console.log(`Inlined ${cssFileName} directly into HTML to eliminate render-blocking CSS!`);
   }
@@ -419,29 +419,29 @@ for (const p of pages) {
   let pageHtml = baseHtml;
 
   // Replace Title
-  pageHtml = pageHtml.replace(/<title>.*?<\/title>/i, `<title>${p.title}</title>`);
-  pageHtml = pageHtml.replace(/<meta name="title" content=".*?" \/>/i, `<meta name="title" content="${p.title}" />`);
+  pageHtml = pageHtml.replace(/<title>.*?<\/title>/i, () => `<title>${p.title}</title>`);
+  pageHtml = pageHtml.replace(/<meta name="title" content=".*?" \/>/i, () => `<meta name="title" content="${p.title}" />`);
 
   // Replace Description
-  pageHtml = pageHtml.replace(/<meta name="description" content=".*?" \/>/i, `<meta name="description" content="${p.description}" />`);
+  pageHtml = pageHtml.replace(/<meta name="description" content=".*?" \/>/i, () => `<meta name="description" content="${p.description}" />`);
 
   // Replace Keywords
-  pageHtml = pageHtml.replace(/<meta name="keywords" content=".*?" \/>/i, `<meta name="keywords" content="${p.keywords}" />`);
+  pageHtml = pageHtml.replace(/<meta name="keywords" content=".*?" \/>/i, () => `<meta name="keywords" content="${p.keywords}" />`);
 
   // Replace Canonical
-  pageHtml = pageHtml.replace(/<link rel="canonical" href=".*?" \/>/i, `<link rel="canonical" href="${pageCanonical}" />`);
+  pageHtml = pageHtml.replace(/<link rel="canonical" href=".*?" \/>/i, () => `<link rel="canonical" href="${pageCanonical}" />`);
 
   // Replace OpenGraph & Twitter
-  pageHtml = pageHtml.replace(/<meta property="og:title" content=".*?" \/>/i, `<meta property="og:title" content="${p.title}" />`);
-  pageHtml = pageHtml.replace(/<meta property="og:description" content=".*?" \/>/i, `<meta property="og:description" content="${p.description}" />`);
-  pageHtml = pageHtml.replace(/<meta property="og:url" content=".*?" \/>/i, `<meta property="og:url" content="${pageCanonical}" />`);
-  pageHtml = pageHtml.replace(/<meta name="twitter:title" content=".*?" \/>/i, `<meta name="twitter:title" content="${p.title}" />`);
-  pageHtml = pageHtml.replace(/<meta name="twitter:description" content=".*?" \/>/i, `<meta name="twitter:description" content="${p.description}" />`);
-  pageHtml = pageHtml.replace(/<meta name="twitter:url" content=".*?" \/>/i, `<meta name="twitter:url" content="${pageCanonical}" />`);
+  pageHtml = pageHtml.replace(/<meta property="og:title" content=".*?" \/>/i, () => `<meta property="og:title" content="${p.title}" />`);
+  pageHtml = pageHtml.replace(/<meta property="og:description" content=".*?" \/>/i, () => `<meta property="og:description" content="${p.description}" />`);
+  pageHtml = pageHtml.replace(/<meta property="og:url" content=".*?" \/>/i, () => `<meta property="og:url" content="${pageCanonical}" />`);
+  pageHtml = pageHtml.replace(/<meta name="twitter:title" content=".*?" \/>/i, () => `<meta name="twitter:title" content="${p.title}" />`);
+  pageHtml = pageHtml.replace(/<meta name="twitter:description" content=".*?" \/>/i, () => `<meta name="twitter:description" content="${p.description}" />`);
+  pageHtml = pageHtml.replace(/<meta name="twitter:url" content=".*?" \/>/i, () => `<meta name="twitter:url" content="${pageCanonical}" />`);
 
   // Replace JSON-LD Schema
   const schemaJson = generateSchemaJson(p);
-  pageHtml = pageHtml.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/i, `<script type="application/ld+json">\n${schemaJson}\n    </script>`);
+  pageHtml = pageHtml.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/i, () => `<script type="application/ld+json">\n${schemaJson}\n    </script>`);
 
   // Replace crawler shell in <div id="root">
   const examHtml = p.examTable ? generateExamTableHtml() : '';
@@ -501,7 +501,7 @@ for (const p of pages) {
     </div>
   `;
 
-  pageHtml = pageHtml.replace(/<div id="root">[\s\S]*?<\/div>\s*<script/i, `${rootContent}\n    <script`);
+  pageHtml = pageHtml.replace(/<div id="root">[\s\S]*?<\/div>\s*<script/i, () => `${rootContent}\n    <script`);
 
   fs.writeFileSync(path.join(pageDir, 'index.html'), pageHtml, 'utf-8');
   generatedCount++;
